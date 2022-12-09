@@ -1,0 +1,33 @@
+{
+  "name": "microflow",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@emotion/cache": "latest",
+    "@emotion/react": "latest",
+    "@emotion/server": "latest",
+    "@emotion/styled": "latest",
+    "@mui/icons-material": "latest",
+    "@mui/material": "latest",
+    "@next/font": "latest",
+    "@reduxjs/toolkit": "^1.9.1",
+    "next": "latest",
+    "next-redux-wrapper": "^8.0.0",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-redux": "^8.0.5"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "eslint": "8.28.0",
+    "eslint-config-next": "13.0.5",
+    "eslint-config-prettier": "^8.5.0",
+    "typescript": "latest"
+  }
+}
