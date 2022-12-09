@@ -1,5 +1,5 @@
 {
-  "name": "microflow",
+  "name": "@microflow/app",
   "version": "0.0.1",
   "scripts": {
     "dev": "next dev",
@@ -20,7 +20,8 @@
     "next-redux-wrapper": "^8.0.0",
     "react": "latest",
     "react-dom": "latest",
-    "react-redux": "^8.0.5"
+    "react-redux": "^8.0.5",
+    "reactflow": "^11.3.3"
   },
   "devDependencies": {
     "@types/node": "latest",

@@ -3,6 +3,8 @@ import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 
+import React from "react";
+
 import Link from "components/link";
 import { useAppDispatch, useAppSelector } from "hooks/reduxHooks";
 import { selectAuthState, setAuthState } from "store/slices/auth";
