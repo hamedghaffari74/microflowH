@@ -43,8 +43,8 @@ export default function Home() {
         <Button onClick={handleLoginClick}>
           {loggedIn ? "Logout" : "Login"}
         </Button>
-        <Link href="/users" color="secondary">
-          Go to the users page
+        <Link href="/canvas" color="secondary">
+          Go to the canvas page
         </Link>
       </Box>
     </Container>
