@@ -1,5 +1,6 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { createWrapper, HYDRATE } from "next-redux-wrapper";
+import { executionsApi } from "./apis/executions";
 
 import { nodesApi } from "./apis/nodes";
 import { oauth2Api } from "./apis/oauth2";
@@ -16,6 +17,7 @@ const combinedReducer = combineReducers({
   [canvasSlice.name]: canvasSlice.reducer,
 
   // api reducers
+  [executionsApi.reducerPath]: executionsApi.reducer,
   [nodesApi.reducerPath]: nodesApi.reducer,
   [oauth2Api.reducerPath]: oauth2Api.reducer,
   [webhooksApi.reducerPath]: webhooksApi.reducer,
