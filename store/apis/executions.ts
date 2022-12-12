@@ -14,6 +14,7 @@ export const executionsApi = createApi({
       return action.payload[reducerPath];
     }
   },
+
   endpoints: (builder) => ({
     getAllExecutions: builder.query<AllExecutionsResponse, void>({
       query: () => "/executions",
@@ -53,6 +54,7 @@ export const executionsApi = createApi({
 export const {
   useCreateNewExecutionMutation,
   useDeleteExecutionMutation,
+  useUpdateExecutionMutation,
   useGetAllExecutionsQuery,
   useGetSpecificExecutionQuery,
   util: { getRunningQueriesThunk, getRunningMutationsThunk },

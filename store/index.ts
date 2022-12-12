@@ -1,5 +1,6 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { createWrapper, HYDRATE } from "next-redux-wrapper";
+import { contractsApi } from "./apis/contracts";
 import { executionsApi } from "./apis/executions";
 
 import { nodesApi } from "./apis/nodes";
@@ -17,6 +18,7 @@ const combinedReducer = combineReducers({
   [canvasSlice.name]: canvasSlice.reducer,
 
   // api reducers
+  [contractsApi.reducerPath]: contractsApi.reducer,
   [executionsApi.reducerPath]: executionsApi.reducer,
   [nodesApi.reducerPath]: nodesApi.reducer,
   [oauth2Api.reducerPath]: oauth2Api.reducer,
