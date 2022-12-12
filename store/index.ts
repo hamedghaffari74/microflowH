@@ -5,6 +5,7 @@ import { executionsApi } from "./apis/executions";
 
 import { nodesApi } from "./apis/nodes";
 import { oauth2Api } from "./apis/oauth2";
+import { walletsApi } from "./apis/wallets";
 import { webhooksApi } from "./apis/webhooks";
 import { workflowsApi } from "./apis/workflows";
 
@@ -22,6 +23,7 @@ const combinedReducer = combineReducers({
   [executionsApi.reducerPath]: executionsApi.reducer,
   [nodesApi.reducerPath]: nodesApi.reducer,
   [oauth2Api.reducerPath]: oauth2Api.reducer,
+  [walletsApi.reducerPath]: walletsApi.reducer,
   [webhooksApi.reducerPath]: webhooksApi.reducer,
   [workflowsApi.reducerPath]: workflowsApi.reducer,
 });
