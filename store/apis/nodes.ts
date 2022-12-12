@@ -1,5 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { HYDRATE } from "next-redux-wrapper";
+
+import { backendApiBaseURL as baseUrl } from "utils/constants";
 import {
   INode,
   INodeData,
@@ -9,8 +11,6 @@ import {
   ITriggerNode,
   WebhookMethod,
 } from "utils/interfaces";
-
-import { backendApiBaseURL } from "utils/constants";
 
 type AllNodesResponse = Array<INode | ITriggerNode>;
 type SpecificNodeResponse = INode | ITriggerNode;
@@ -34,7 +34,7 @@ interface LoadMethodNodeArgs {
 
 export const nodesApi = createApi({
   reducerPath: "nodesApi",
-  baseQuery: fetchBaseQuery({ baseUrl: backendApiBaseURL }),
+  baseQuery: fetchBaseQuery({ baseUrl }),
   extractRehydrationInfo(action, { reducerPath }) {
     if (action.type === HYDRATE) {
       return action.payload[reducerPath];
