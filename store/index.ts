@@ -2,6 +2,7 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { createWrapper, HYDRATE } from "next-redux-wrapper";
 
 import { nodesApi } from "./apis/nodes";
+import { oauth2Api } from "./apis/oauth2";
 import { webhooksApi } from "./apis/webhooks";
 import { workflowsApi } from "./apis/workflows";
 
@@ -16,6 +17,7 @@ const combinedReducer = combineReducers({
 
   // api reducers
   [nodesApi.reducerPath]: nodesApi.reducer,
+  [oauth2Api.reducerPath]: oauth2Api.reducer,
   [webhooksApi.reducerPath]: webhooksApi.reducer,
   [workflowsApi.reducerPath]: workflowsApi.reducer,
 });

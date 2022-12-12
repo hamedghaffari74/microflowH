@@ -87,6 +87,7 @@ export const {
   useTestWorkflowMutation,
   useUpdateWorkflowMutation,
   useDeleteWorkflowMutation,
+  util: { getRunningQueriesThunk, getRunningMutationsThunk },
 } = workflowsApi;
 
 export const {
