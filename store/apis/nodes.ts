@@ -12,7 +12,7 @@ import {
   WebhookMethod,
 } from "utils/interfaces";
 
-type AllNodesResponse = Array<INode | ITriggerNode>;
+type AllNodesResponse = Array<SpecificNodeResponse>;
 type SpecificNodeResponse = INode | ITriggerNode;
 type LoadMethodNodeResponse = Array<INodeOptionsValue>;
 type TestNodeResponse =
@@ -22,14 +22,13 @@ type TestNodeResponse =
       httpMethod: WebhookMethod;
     };
 
-interface TestNodeArgs {
-  name: string;
-  body: ITestNodeBody;
-}
-
-interface LoadMethodNodeArgs {
+interface ILoadMethodNodeArgs {
   name: string;
   body: INodeData;
+}
+interface ITestNodeArgs {
+  name: string;
+  body: ITestNodeBody;
 }
 
 export const nodesApi = createApi({
@@ -51,7 +50,7 @@ export const nodesApi = createApi({
 
     loadMethodNode: builder.mutation<
       LoadMethodNodeResponse,
-      LoadMethodNodeArgs
+      ILoadMethodNodeArgs
     >({
       query: ({ name, ...body }) => ({
         url: `/node-load-method/${name}`,
@@ -59,14 +58,14 @@ export const nodesApi = createApi({
       }),
     }),
 
-    testNode: builder.mutation<TestNodeResponse, TestNodeArgs>({
+    testNode: builder.mutation<TestNodeResponse, ITestNodeArgs>({
       query: ({ name, ...body }) => ({
         url: `/node-test/${name}`,
         body,
       }),
     }),
 
-    removeTestTriggers: builder.mutation<void, null>({
+    removeTestTriggers: builder.mutation({
       query: () => ({
         url: `/remove-test-triggers`,
       }),

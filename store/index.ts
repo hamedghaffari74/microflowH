@@ -3,6 +3,7 @@ import { createWrapper, HYDRATE } from "next-redux-wrapper";
 
 import { nodesApi } from "./apis/nodes";
 import { webhooksApi } from "./apis/webhooks";
+import { workflowsApi } from "./apis/workflows";
 
 import { authSlice } from "./slices/auth";
 import { canvasSlice } from "./slices/canvas";
@@ -16,6 +17,7 @@ const combinedReducer = combineReducers({
   // api reducers
   [nodesApi.reducerPath]: nodesApi.reducer,
   [webhooksApi.reducerPath]: webhooksApi.reducer,
+  [workflowsApi.reducerPath]: workflowsApi.reducer,
 });
 
 const reducer: typeof combinedReducer = (state, action) => {
@@ -36,7 +38,10 @@ export const makeStore = () =>
   configureStore({
     reducer,
     middleware: (gDM) =>
-      gDM().concat(nodesApi.middleware).concat(webhooksApi.middleware),
+      gDM()
+        .concat(nodesApi.middleware)
+        .concat(webhooksApi.middleware)
+        .concat(workflowsApi.middleware),
   });
 
 export type AppStore = ReturnType<typeof makeStore>;
