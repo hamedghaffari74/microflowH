@@ -3,10 +3,12 @@ import { createWrapper, HYDRATE } from "next-redux-wrapper";
 
 import { userApi } from "./slices/users";
 import { authSlice } from "./slices/auth";
+import { canvasSlice } from "./slices/canvas";
 
 const combinedReducer = combineReducers({
   [userApi.reducerPath]: userApi.reducer,
   [authSlice.name]: authSlice.reducer,
+  [canvasSlice.name]: canvasSlice.reducer,
 });
 
 const reducer: typeof combinedReducer = (state, action) => {
