@@ -14,11 +14,11 @@ import { authSlice } from "./slices/auth";
 import { canvasSlice } from "./slices/canvas";
 
 const combinedReducer = combineReducers({
-  [authSlice.name]: authSlice.reducer,
-
   // app reducers
+  [authSlice.name]: authSlice.reducer, // TODO: remove
   [canvasSlice.name]: canvasSlice.reducer,
 
+  // TODO: determine which slices need to persist on page navigation client side
   // api reducers
   [contractsApi.reducerPath]: contractsApi.reducer,
   [credentialsApi.reducerPath]: credentialsApi.reducer,

@@ -1,24 +1,13 @@
 import { Box } from "@mui/system";
-import ReactFlow, {
-  Background,
-  Controls,
-  MiniMap,
-  useEdgesState,
-  useNodesState,
-  Viewport,
-} from "reactflow";
+import ReactFlow, { Background, Controls, MiniMap, Viewport } from "reactflow";
 
+import Link from "components/link";
 import ButtonEdge from "containers/buttonEdge";
 import CanvasNode from "containers/canvasNode";
-import { wrapper } from "store";
-import {
-  getAllNodes,
-  getRunningQueriesThunk,
-  useGetAllNodesQuery,
-} from "store/apis/nodes";
-import theme from "utils/theme";
 import "reactflow/dist/style.css";
-import Link from "components/link";
+import { wrapper } from "store";
+import { getAllNodes, getRunningQueriesThunk } from "store/apis/nodes";
+import theme from "utils/theme";
 
 const nodeTypes = { customNode: CanvasNode };
 const edgeTypes = { buttonEdge: ButtonEdge };
@@ -32,19 +21,12 @@ export const getStaticProps = wrapper.getStaticProps((store) => async () => {
 });
 
 export default function Canvas() {
-  const [nodes, setNodes, onNodesChange] = useNodesState([]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-
   return (
     <Box sx={{ height: "90vh", width: "100%" }} border={1}>
       <ReactFlow
         defaultViewport={defaultViewport}
-        edges={edges}
         edgeTypes={edgeTypes}
-        onEdgesChange={onEdgesChange}
-        nodes={nodes}
         nodeTypes={nodeTypes}
-        onNodesChange={onNodesChange}
       >
         <Controls
           style={{
