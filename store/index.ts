@@ -1,14 +1,12 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { createWrapper, HYDRATE } from "next-redux-wrapper";
 
-import { userApi } from "./slices/users";
 import { authSlice } from "./slices/auth";
 import { canvasSlice } from "./slices/canvas";
-import { nodesApi } from "./slices/nodes";
+import { nodesApi } from "./apis/nodes";
 
 const combinedReducer = combineReducers({
   [authSlice.name]: authSlice.reducer,
-  [userApi.reducerPath]: userApi.reducer,
 
   // app reducers
   [canvasSlice.name]: canvasSlice.reducer,
@@ -34,8 +32,7 @@ const reducer: typeof combinedReducer = (state, action) => {
 export const makeStore = () =>
   configureStore({
     reducer,
-    middleware: (gDM) =>
-      gDM().concat(userApi.middleware).concat(nodesApi.middleware),
+    middleware: (gDM) => gDM().concat(nodesApi.middleware),
   });
 
 export type AppStore = ReturnType<typeof makeStore>;
