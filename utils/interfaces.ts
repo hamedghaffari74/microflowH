@@ -65,6 +65,9 @@ export interface INodeData extends INodeProperties {
   inputParameters?: ICommonObject;
   outputResponses?: ICommonObject;
 
+  inputAnchors: Array<{ id: string }>;
+  outputAnchors: Array<{ id: string }>;
+
   loadMethod?: string; // method to load async options
   loadFromDbCollections?: DbCollectionName[]; // method to load async options
 
