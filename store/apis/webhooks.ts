@@ -14,9 +14,10 @@ export const webhooksApi = createApi({
   },
 
   endpoints: (builder) => ({
-    deleteAllTestWebhooks: builder.mutation({
+    deleteAllTestWebhooks: builder.mutation<void, void>({
       query: () => ({
         url: "/remove-test-webhooks",
+        method: "POST",
       }),
     }),
   }),

@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { HYDRATE } from "next-redux-wrapper";
+import { RootState } from "store";
 
 import { backendApiBaseURL as baseUrl } from "utils/constants";
 import {
@@ -12,7 +13,7 @@ import {
   WebhookMethod,
 } from "utils/interfaces";
 
-type AllNodesResponse = Array<SpecificNodeResponse>;
+export type AllNodesResponse = Array<SpecificNodeResponse>;
 type SpecificNodeResponse = INode | ITriggerNode;
 type LoadMethodNodeResponse = Array<INodeOptionsValue>;
 type TestNodeResponse =
@@ -65,7 +66,7 @@ export const nodesApi = createApi({
       }),
     }),
 
-    removeTestTriggers: builder.mutation({
+    removeTestTriggers: builder.mutation<void, void>({
       query: () => ({
         url: `/remove-test-triggers`,
       }),
@@ -90,3 +91,5 @@ export const {
   testNode,
   removeTestTriggers,
 } = nodesApi.endpoints;
+
+export const selectNodesState = (state: RootState) => state.nodesApi;
