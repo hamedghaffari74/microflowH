@@ -23,6 +23,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import { useAppSelector } from "hooks/reduxHooks";
 import Image from "next/image";
 import React, {
   DragEvent,
@@ -33,6 +34,7 @@ import React, {
 } from "react";
 
 import { AllNodesResponse } from "store/apis/nodes";
+import { selectCanvasState } from "store/slices/canvas";
 import { imgLoader } from "utils/genericHelpers";
 import { INode, ITriggerNode } from "utils/interfaces";
 import { CustomNode } from "utils/types";
@@ -46,10 +48,9 @@ function a11yProps(index: number) {
 
 type Props = {
   nodesData: AllNodesResponse;
-  node?: CustomNode;
 };
 
-const AddNodes: React.FC<Props> = ({ node, nodesData }) => {
+const AddNodes: React.FC<Props> = ({ nodesData }) => {
   const theme = useTheme();
 
   const [searchValue, setSearchValue] = useState("");
@@ -62,6 +63,8 @@ const AddNodes: React.FC<Props> = ({ node, nodesData }) => {
 
   const anchorRef = useRef<HTMLButtonElement>(null);
   const prevOpen = useRef(open);
+
+  const { selectedNode: node } = useAppSelector(selectCanvasState);
 
   const handleTabChange = (
     event: SyntheticEvent<Element, Event>,
