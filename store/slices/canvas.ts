@@ -23,10 +23,6 @@ export const canvasSlice = createSlice({
   name: "canvas",
   initialState,
   reducers: {
-    removeEdge: (state, action: PayloadAction<CanvasState["removeEdgeId"]>) => {
-      state.removeEdgeId = action.payload;
-    },
-
     setWorkflow: (state, action: PayloadAction<CanvasState["workflow"]>) => {
       state.workflow = action.payload;
     },
@@ -39,7 +35,7 @@ export const canvasSlice = createSlice({
     },
 
     setDirty: (state) => {
-      state.isDirty = true;
+      if (!state.isDirty) state.isDirty = true;
     },
 
     removeDirty: (state) => {
@@ -48,13 +44,8 @@ export const canvasSlice = createSlice({
   },
 });
 
-export const {
-  removeDirty,
-  removeEdge,
-  setDirty,
-  setSelectedNode,
-  setWorkflow,
-} = canvasSlice.actions;
+export const { removeDirty, setDirty, setSelectedNode, setWorkflow } =
+  canvasSlice.actions;
 
 export const selectCanvasState = (state: RootState) => state.canvas;
 

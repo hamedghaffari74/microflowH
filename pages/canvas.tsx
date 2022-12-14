@@ -17,7 +17,7 @@ import Link from "components/link";
 import AddNodes from "containers/addNodes";
 import ButtonEdge from "containers/buttonEdge";
 import CanvasNode from "containers/canvasNode";
-import { useAppDispatch, useAppSelector } from "hooks/reduxHooks";
+import { useAppDispatch } from "hooks/reduxHooks";
 import { batch } from "react-redux";
 import "reactflow/dist/style.css";
 import { wrapper } from "store";
@@ -28,12 +28,7 @@ import {
   useGetAllNodesQuery,
 } from "store/apis/nodes";
 import { deleteAllTestWebhooks } from "store/apis/webhooks";
-import {
-  selectCanvasState,
-  setDirty,
-  setSelectedNode,
-  setWorkflow,
-} from "store/slices/canvas";
+import { setDirty, setSelectedNode, setWorkflow } from "store/slices/canvas";
 import {
   addAnchors,
   checkMultipleTriggers,
@@ -63,7 +58,6 @@ export const getStaticProps = wrapper.getStaticProps((store) => async () => {
 
 export default function Canvas() {
   const dispatch = useAppDispatch();
-  const { selectedNode, isDirty } = useAppSelector(selectCanvasState);
   const { data: allNodes } = useGetAllNodesQuery();
 
   const reactFlowWrapper = useRef<HTMLElement>(null);
@@ -89,10 +83,9 @@ export default function Canvas() {
       };
 
       setEdges((eds) => addEdge(newEdge, eds));
-
-      if (!isDirty) dispatch(setDirty());
+      dispatch(setDirty());
     },
-    [dispatch, isDirty, setEdges]
+    [dispatch, setEdges]
   );
 
   const onNodeDoubleClick = useCallback(
@@ -109,9 +102,9 @@ export default function Canvas() {
 
   const onNodeDragStop = useCallback(
     (event: React.MouseEvent, node: CustomNode, nodes: CustomNode[]) => {
-      if (!isDirty) dispatch(setDirty());
+      dispatch(setDirty());
     },
-    [dispatch, isDirty]
+    [dispatch]
   );
 
   const onDrop = useCallback(
@@ -185,7 +178,7 @@ export default function Canvas() {
           onNodeDragStop={onNodeDragStop}
           // Edges props
           edges={edges}
-          // edgeTypes={edgeTypes}
+          edgeTypes={edgeTypes}
           onConnect={onConnect}
           onEdgesChange={onEdgesChange}
           // Drag and drop
@@ -203,12 +196,14 @@ export default function Canvas() {
               transform: "translate(-50%, -50%)",
             }}
           />
-          <AddNodes nodesData={allNodes || []} node={selectedNode} />
+          <AddNodes nodesData={allNodes || []} />
           <Background color="#00f" gap={16} />
           <MiniMap
             nodeStrokeColor={() => theme.palette.primary.main}
             nodeColor={() => theme.palette.primary.main}
             nodeBorderRadius={2}
+            pannable
+            zoomable
           />
         </ReactFlow>
 
