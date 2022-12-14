@@ -1,19 +1,21 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "store";
 
+import { IWorkflowResponse } from "utils/interfaces";
+import { CustomNode } from "utils/types";
+
 // Type for our state
 export interface CanvasState {
   isDirty: boolean;
-  removeEdgeId: string;
-  workflow: any; // TODO: find workflow type
+  removeEdgeId?: string;
+  workflow?: IWorkflowResponse;
+  selectedNode?: CustomNode;
 }
 
 // Initial state
 // TODO: determine which state should be navigation agnostic
 const initialState: CanvasState = {
   isDirty: false,
-  removeEdgeId: "",
-  workflow: null,
 };
 
 // Actual Slice
@@ -29,6 +31,13 @@ export const canvasSlice = createSlice({
       state.workflow = action.payload;
     },
 
+    setSelectedNode: (
+      state,
+      action: PayloadAction<CanvasState["selectedNode"]>
+    ) => {
+      state.selectedNode = action.payload;
+    },
+
     setDirty: (state) => {
       state.isDirty = true;
     },
@@ -39,8 +48,13 @@ export const canvasSlice = createSlice({
   },
 });
 
-export const { removeDirty, removeEdge, setDirty, setWorkflow } =
-  canvasSlice.actions;
+export const {
+  removeDirty,
+  removeEdge,
+  setDirty,
+  setSelectedNode,
+  setWorkflow,
+} = canvasSlice.actions;
 
 export const selectCanvasState = (state: RootState) => state.canvas;
 
