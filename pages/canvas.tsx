@@ -5,6 +5,7 @@ import ReactFlow, {
   Background,
   Connection,
   Controls,
+  EdgeTypes,
   MiniMap,
   ReactFlowInstance,
   ReactFlowProvider,
@@ -185,7 +186,7 @@ export default function Canvas() {
           onNodeDragStop={onNodeDragStop}
           // Edges props
           edges={edges}
-          // edgeTypes={edgeTypes}
+          edgeTypes={edgeTypes}
           onConnect={onConnect}
           onEdgesChange={onEdgesChange}
           // Drag and drop
