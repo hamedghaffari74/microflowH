@@ -20,6 +20,7 @@
     "next-redux-wrapper": "^8.0.0",
     "react": "latest",
     "react-dom": "latest",
+    "react-perfect-scrollbar": "^1.5.8",
     "react-redux": "^8.0.5",
     "reactflow": "^11.3.3"
   },
