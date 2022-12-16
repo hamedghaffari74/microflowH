@@ -1,31 +1,26 @@
-import { Button } from "@mui/material";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 
-import React from "react";
-
 import Link from "components/link";
-import { useAppDispatch, useAppSelector } from "hooks/reduxHooks";
-import { selectAuthState, setAuthState } from "store/slices/auth";
 import { wrapper } from "store";
+import {
+  getAllWorkflows,
+  getRunningWorkflowQueries,
+  useGetAllWorkflowsQuery
+} from "store/apis/workflows";
 
 // should use getStaticProps if this is something that doesn't change
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async () => {
-    store.dispatch(setAuthState(false));
-    return { props: { authState: false } };
+    store.dispatch(getAllWorkflows.initiate());
+    await Promise.all(store.dispatch(getRunningWorkflowQueries()));
+    return { props: {} };
   }
 );
 
 export default function Home() {
-  const loggedIn = useAppSelector(selectAuthState);
-  const dispatch = useAppDispatch();
-
-  function handleLoginClick() {
-    loggedIn ? dispatch(setAuthState(false)) : dispatch(setAuthState(true));
-  }
-
+  const { data: workflows = [] } = useGetAllWorkflowsQuery();
   return (
     <Container maxWidth="lg">
       <Box
@@ -37,15 +32,16 @@ export default function Home() {
           alignItems: "center",
         }}
       >
-        <Typography>
-          {loggedIn ? "User is Logged in" : "User is Logged out"}
-        </Typography>
-        <Button onClick={handleLoginClick}>
-          {loggedIn ? "Logout" : "Login"}
-        </Button>
         <Link href="/canvas" color="secondary">
           Go to the canvas page
         </Link>
+
+        <Typography>All Workflows:</Typography>
+        {workflows.map((w) => (
+          <Link key={w._id} href={`/canvas/${w.shortId}`}>
+            {w.name}
+          </Link>
+        ))}
       </Box>
     </Container>
   );

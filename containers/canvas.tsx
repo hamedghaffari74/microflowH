@@ -1,20 +1,12 @@
 import { Button, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import {
-  DragEvent,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { DragEvent, useCallback, useEffect, useRef, useState } from "react";
 import { batch } from "react-redux";
 import ReactFlow, {
   addEdge,
   Background,
   Connection,
   Controls,
-  Edge,
   MiniMap,
   ReactFlowInstance,
   ReactFlowProvider,
@@ -29,14 +21,13 @@ import AddNodes from "containers/addNodes";
 import ButtonEdge from "containers/buttonEdge";
 import CanvasNode from "containers/canvasNode";
 import { useAppDispatch, useAppSelector } from "hooks/reduxHooks";
+import { useRouter } from "next/router";
 import "reactflow/dist/style.css";
-import { useGetAllNodesQuery } from "store/apis/nodes";
+import { selectAllNodesState } from "store/apis/nodes";
 import {
-  getSpecificWorkflow,
   useCreateNewWorkflowMutation,
   useGetSpecificWorkflowQuery,
   useUpdateWorkflowMutation,
-  workflowsApi,
 } from "store/apis/workflows";
 import {
   selectCanvasState,
@@ -54,7 +45,6 @@ import {
 import { INodeData } from "utils/interfaces";
 import theme from "utils/theme";
 import { CustomNode } from "utils/types";
-import { useRouter } from "next/router";
 
 const edgeTypes = { buttonEdge: ButtonEdge };
 const nodeTypes = { customNode: CanvasNode };
@@ -64,13 +54,13 @@ const DEFAULT_WORKFLOW_TITLE = "Untitled workflow";
 
 export default function Canvas() {
   const { query } = useRouter();
+  const flowId = query.id?.toString() || "";
 
   const dispatch = useAppDispatch();
-  const { isDirty } = useAppSelector(selectCanvasState);
+  const allNodes = useAppSelector(selectAllNodesState);
+  const { isDirty, workflow: storeWrkflow } = useAppSelector(selectCanvasState);
 
-  const flowId = query.id?.toString() || "";
   const { data: workflow } = useGetSpecificWorkflowQuery(flowId);
-  const { data: allNodes } = useGetAllNodesQuery();
 
   const reactFlowWrapper = useRef<HTMLElement>(null);
 
@@ -224,7 +214,10 @@ export default function Canvas() {
    ********************************************/
   return (
     <Box>
-      <Typography>{workflow?.name || DEFAULT_WORKFLOW_TITLE}</Typography>
+      <Typography>
+        {/* Harmonize so that we're not storing massive workflow in state without need to */}
+        {workflow?.name || storeWrkflow?.name || DEFAULT_WORKFLOW_TITLE}
+      </Typography>
       <Button sx={{ marginRight: 10 }} onClick={() => setOpenSaveDialog(true)}>
         Save
       </Button>
@@ -279,6 +272,7 @@ export default function Canvas() {
               handleSaveWorkflow(name);
               setOpenSaveDialog(false);
             }}
+            initialName={workflow?.name || storeWrkflow?.name}
             labels={{
               title: `Save New Workflow`,
               cancel: "Cancel",

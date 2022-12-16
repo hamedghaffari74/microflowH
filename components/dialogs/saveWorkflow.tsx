@@ -13,6 +13,7 @@ type Props = {
   open: boolean;
   onCancel: () => void;
   onConfirm: (name: string) => void;
+  initialName?: string;
   labels: {
     title: string;
     confirm: string;
@@ -25,8 +26,9 @@ const SaveWorkflow: React.FC<Props> = ({
   labels,
   onCancel,
   onConfirm,
+  initialName = "",
 }) => {
-  const [workflowName, setWorkflowName] = useState("");
+  const [workflowName, setWorkflowName] = useState(initialName);
 
   return open ? (
     <Dialog

@@ -81,7 +81,10 @@ export const {
   useLoadMethodNodeMutation,
   useTestNodeMutation,
   useRemoveTestTriggersMutation,
-  util: { getRunningQueriesThunk, getRunningMutationsThunk },
+  util: {
+    getRunningQueriesThunk: getRunningNodeQueries,
+    getRunningMutationsThunk,
+  },
 } = nodesApi;
 
 export const {
@@ -93,3 +96,5 @@ export const {
 } = nodesApi.endpoints;
 
 export const selectNodesState = (state: RootState) => state.nodesApi;
+export const selectAllNodesState = (state: RootState) =>
+  getAllNodes.select()(state)?.data ?? undefined;
