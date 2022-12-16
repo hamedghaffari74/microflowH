@@ -89,7 +89,7 @@ export default function Canvas() {
 
   /*** TO BE MOVED */
   const handleSaveWorkflow = useCallback(
-    (name: string) => {
+    async (name: string) => {
       // TODO: depending on where this function lands, we can use the
       // useReactflow instance hook instead
       if (!rfInstance) return;
@@ -98,11 +98,20 @@ export default function Canvas() {
       const flowData = JSON.stringify(rfInstance.toObject());
 
       // save new flow
-      if (!workflow?.shortId) {
-        createWorkflow({ name, deployed: false, flowData });
-      } else {
-        // update existing workflow
-        updateWorkflow({ shortId: workflow.shortId, name, flowData });
+      try {
+        if (!workflow?.shortId) {
+          const response = await createWorkflow({
+            name,
+            deployed: false,
+            flowData,
+          }).unwrap();
+          setWorkflow(response);
+        } else {
+          // update existing workflow
+          updateWorkflow({ shortId: workflow.shortId, name, flowData });
+        }
+      } catch (error) {
+        console.error(`Error occurred saving workflow: ${name}`, error);
       }
     },
     [createWorkflow, rfInstance, updateWorkflow, workflow?.shortId]
