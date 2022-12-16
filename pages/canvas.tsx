@@ -1,5 +1,7 @@
+import { Button } from "@mui/material";
 import { Box } from "@mui/system";
 import { DragEvent, useCallback, useRef, useState } from "react";
+import { batch } from "react-redux";
 import ReactFlow, {
   addEdge,
   Background,
@@ -13,12 +15,12 @@ import ReactFlow, {
   Viewport,
 } from "reactflow";
 
+import SaveWorkflow from "components/dialogs/saveWorkflow";
 import Link from "components/link";
 import AddNodes from "containers/addNodes";
 import ButtonEdge from "containers/buttonEdge";
 import CanvasNode from "containers/canvasNode";
-import { useAppDispatch } from "hooks/reduxHooks";
-import { batch } from "react-redux";
+import { useAppDispatch, useAppSelector } from "hooks/reduxHooks";
 import "reactflow/dist/style.css";
 import { wrapper } from "store";
 import {
@@ -28,7 +30,16 @@ import {
   useGetAllNodesQuery,
 } from "store/apis/nodes";
 import { deleteAllTestWebhooks } from "store/apis/webhooks";
-import { setDirty, setSelectedNode, setWorkflow } from "store/slices/canvas";
+import {
+  useCreateNewWorkflowMutation,
+  useUpdateWorkflowMutation,
+} from "store/apis/workflows";
+import {
+  selectCanvasState,
+  setDirty,
+  setSelectedNode,
+  setWorkflow,
+} from "store/slices/canvas";
 import {
   addAnchors,
   checkMultipleTriggers,
@@ -45,26 +56,57 @@ const nodeTypes = { customNode: CanvasNode };
 const defaultViewport: Viewport = { x: 10, y: 15, zoom: 5 };
 
 // determine proper fetch time
-export const getStaticProps = wrapper.getStaticProps((store) => async () => {
-  store.dispatch(getAllNodes.initiate());
-  store.dispatch(removeTestTriggers.initiate());
-  store.dispatch(deleteAllTestWebhooks.initiate());
-  store.dispatch(
-    setWorkflow({ name: "Untitled workflow" } as IWorkflowResponse)
-  );
-  await Promise.all(store.dispatch(getRunningQueriesThunk()));
-  return { props: {} };
-});
+export const getStaticProps = wrapper.getServerSideProps(
+  (store) => async () => {
+    store.dispatch(getAllNodes.initiate());
+    store.dispatch(removeTestTriggers.initiate());
+    store.dispatch(deleteAllTestWebhooks.initiate());
+    store.dispatch(
+      setWorkflow({ name: "Untitled workflow" } as IWorkflowResponse)
+    );
+    await Promise.all(store.dispatch(getRunningQueriesThunk()));
+    return { props: {} };
+  }
+);
 
 export default function Canvas() {
   const dispatch = useAppDispatch();
+  const { workflow } = useAppSelector(selectCanvasState);
   const { data: allNodes } = useGetAllNodesQuery();
 
   const reactFlowWrapper = useRef<HTMLElement>(null);
+
+  // TODO deprecate in favor of useReactFlow hook inside provider
   const [rfInstance, setRfInstance] = useState<ReactFlowInstance>();
 
   const [nodes, setNodes, onNodesChange] = useNodesState<CustomNode>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+
+  /*** Save workflow: Move */
+  const [openSaveDialog, setOpenSaveDialog] = useState(false);
+  const [createWorkflow, createResult] = useCreateNewWorkflowMutation();
+  const [updateWorkflow, updateResult] = useUpdateWorkflowMutation();
+
+  /*** TO BE MOVED */
+  const handleSaveWorkflow = useCallback(
+    (name: string) => {
+      // TODO: depending on where this function lands, we can use the
+      // useReactflow instance hook instead
+      if (!rfInstance) return;
+
+      // prepare data
+      const flowData = JSON.stringify(rfInstance.toObject());
+
+      // save new flow
+      if (!workflow?.shortId) {
+        createWorkflow({ name, deployed: false, flowData });
+      } else {
+        // update existing workflow
+        updateWorkflow({ shortId: workflow.shortId, name, flowData });
+      }
+    },
+    [createWorkflow, rfInstance, updateWorkflow, workflow?.shortId]
+  );
 
   /********************************************
    *                Handlers                  *
@@ -163,52 +205,67 @@ export default function Canvas() {
    *                 Render                   *
    ********************************************/
   return (
-    <ReactFlowProvider>
+    <Box>
+      <Link href="/">Home</Link>
+      <Button onClick={() => setOpenSaveDialog(true)}>Save</Button>
       <Box
-        sx={{ height: "90vh", width: "100%" }}
-        border={1}
+        sx={{ marginTop: "80px", border: 1, height: "90vh", width: "100%" }}
         ref={reactFlowWrapper}
       >
-        <ReactFlow
-          onInit={onInit}
-          nodes={nodes}
-          nodeTypes={nodeTypes}
-          onNodesChange={onNodesChange}
-          onNodeDoubleClick={onNodeDoubleClick}
-          onNodeDragStop={onNodeDragStop}
-          // Edges props
-          edges={edges}
-          edgeTypes={edgeTypes}
-          onConnect={onConnect}
-          onEdgesChange={onEdgesChange}
-          // Drag and drop
-          onDragOver={onDragOver}
-          onDrop={onDrop}
-          // styling
-          fitView
-          defaultViewport={defaultViewport}
-        >
-          <Controls
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
+        <ReactFlowProvider>
+          <ReactFlow
+            onInit={onInit}
+            nodes={nodes}
+            nodeTypes={nodeTypes}
+            onNodesChange={onNodesChange}
+            onNodeDoubleClick={onNodeDoubleClick}
+            onNodeDragStop={onNodeDragStop}
+            // Edges props
+            edges={edges}
+            edgeTypes={edgeTypes}
+            onConnect={onConnect}
+            onEdgesChange={onEdgesChange}
+            // Drag and drop
+            onDragOver={onDragOver}
+            onDrop={onDrop}
+            // styling
+            fitView
+            defaultViewport={defaultViewport}
+          >
+            <Controls
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+              }}
+            />
+            <AddNodes nodesData={allNodes || []} />
+            <Background color="#00f" gap={16} />
+            <MiniMap
+              nodeStrokeColor={() => theme.palette.primary.main}
+              nodeColor={() => theme.palette.primary.main}
+              nodeBorderRadius={2}
+              pannable
+              zoomable
+            />
+          </ReactFlow>
+
+          <SaveWorkflow
+            open={openSaveDialog}
+            onCancel={() => setOpenSaveDialog(false)}
+            onConfirm={(name) => {
+              handleSaveWorkflow(name);
+              setOpenSaveDialog(false);
+            }}
+            labels={{
+              title: `Save New Workflow`,
+              cancel: "Cancel",
+              confirm: "Save",
             }}
           />
-          <AddNodes nodesData={allNodes || []} />
-          <Background color="#00f" gap={16} />
-          <MiniMap
-            nodeStrokeColor={() => theme.palette.primary.main}
-            nodeColor={() => theme.palette.primary.main}
-            nodeBorderRadius={2}
-            pannable
-            zoomable
-          />
-        </ReactFlow>
-
-        <Link href="/">Home</Link>
+        </ReactFlowProvider>
       </Box>
-    </ReactFlowProvider>
+    </Box>
   );
 }

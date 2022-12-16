@@ -2,11 +2,17 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { HYDRATE } from "next-redux-wrapper";
 
 import { backendApiBaseURL as baseUrl } from "utils/constants";
-import {
-  ITestWorkflowBody,
-  IWorkflow,
-  IWorkflowResponse,
-} from "utils/interfaces";
+import { ITestWorkflowBody, IWorkflowResponse } from "utils/interfaces";
+
+interface IModifyWorkflowArgs {
+  name: string;
+  flowData: string;
+  shortId?: string;
+}
+
+interface ICreateWorkflowArgs extends IModifyWorkflowArgs {
+  deployed: false;
+}
 
 interface IDeployWorkflowArgs {
   shortId: string;
@@ -22,6 +28,7 @@ type AllWorkflowsResponse = Array<IWorkflowResponse>;
 export const workflowsApi = createApi({
   reducerPath: "workflowsApi",
   baseQuery: fetchBaseQuery({ baseUrl }),
+  tagTypes: ["Workflows"],
 
   extractRehydrationInfo(action, { reducerPath }) {
     if (action.type === HYDRATE) {
@@ -32,25 +39,49 @@ export const workflowsApi = createApi({
   endpoints: (builder) => ({
     getAllWorkflows: builder.query<AllWorkflowsResponse, void>({
       query: () => "workflows",
+
+      // this will auto refetch when workflows have been modified
+      providesTags: (result) => {
+        if (result) {
+          return [
+            ...result.map(
+              ({ shortId }) => ({ type: "Workflows", shortId } as const)
+            ),
+            { type: "Workflows", id: "LIST" },
+          ];
+        } else {
+          return [{ type: "Workflows", id: "LIST" }];
+        }
+      },
     }),
 
-    getSpecificWorkflow: builder.query<
-      IWorkflowResponse,
-      Pick<IWorkflow, "shortId">
-    >({
+    getSpecificWorkflow: builder.query<IWorkflowResponse, string>({
       query: (shortId) => `/workflows/${shortId}`,
+      providesTags: (result, error, id) => [{ type: "Workflows", id }],
     }),
 
-    createNewWorkflow: builder.mutation<IWorkflowResponse, IWorkflow>({
-      query: (body) => ({ url: "/workflows", body }),
-    }),
+    createNewWorkflow: builder.mutation<IWorkflowResponse, ICreateWorkflowArgs>(
+      {
+        query: (body) => ({ url: "/workflows", body, method: "POST" }),
+        invalidatesTags: [{ type: "Workflows", id: "LIST" }],
+      }
+    ),
 
-    updateWorkflow: builder.mutation<IWorkflowResponse | undefined, IWorkflow>({
-      query: (workFlow) => ({
-        url: `/workflows/${workFlow.shortId}`,
+    updateWorkflow: builder.mutation<
+      IWorkflowResponse | undefined,
+      IModifyWorkflowArgs
+    >({
+      query: ({ shortId, ...workFlow }) => ({
+        url: `/workflows/${shortId}`,
         method: "PUT",
         body: workFlow,
       }),
+
+      // any request to this specific workflow will be rerun. ex:
+      // getSpecificWorkflow(shortId) is the one being updated
+      invalidatesTags: (result, error, { shortId }) => [
+        { type: "Workflows", id: shortId },
+      ],
     }),
 
     deployWorkflow: builder.mutation<
@@ -70,11 +101,12 @@ export const workflowsApi = createApi({
       }),
     }),
 
-    deleteWorkflow: builder.mutation<undefined, Pick<IWorkflow, "shortId">>({
+    deleteWorkflow: builder.mutation<undefined, string>({
       query: (shortId) => ({
         url: `/workflows/${shortId}`,
         method: "DELETE",
       }),
+      invalidatesTags: (result, error, id) => [{ type: "Workflows", id }],
     }),
   }),
 });

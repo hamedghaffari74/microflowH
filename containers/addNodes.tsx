@@ -1,4 +1,5 @@
 // TODO: restyle
+import styled from "@emotion/styled";
 import { Add, Close, ExpandMore, Search } from "@mui/icons-material";
 import {
   Accordion,
@@ -23,7 +24,6 @@ import {
   Typography,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { useAppSelector } from "hooks/reduxHooks";
 import Image from "next/image";
 import React, {
   DragEvent,
@@ -32,12 +32,13 @@ import React, {
   useRef,
   useState,
 } from "react";
+import PerfectScrollbar from "react-perfect-scrollbar";
 
+import { useAppSelector } from "hooks/reduxHooks";
 import { AllNodesResponse } from "store/apis/nodes";
 import { selectCanvasState } from "store/slices/canvas";
 import { imgLoader } from "utils/genericHelpers";
 import { INode, ITriggerNode } from "utils/interfaces";
-import { CustomNode } from "utils/types";
 
 function a11yProps(index: number) {
   return {
@@ -63,6 +64,7 @@ const AddNodes: React.FC<Props> = ({ nodesData }) => {
 
   const anchorRef = useRef<HTMLButtonElement>(null);
   const prevOpen = useRef(open);
+  const ps = useRef<HTMLElement>();
 
   const { selectedNode: node } = useAppSelector(selectCanvasState);
 
@@ -166,7 +168,7 @@ const AddNodes: React.FC<Props> = ({ nodesData }) => {
   return (
     <>
       <Fab
-        sx={{ left: "80%", top: "90%" }}
+        sx={{ left: "95vw", top: 40 }}
         ref={anchorRef}
         size="small"
         color="primary"
@@ -232,94 +234,105 @@ const AddNodes: React.FC<Props> = ({ nodesData }) => {
                   <Tab key={2} label="Webhook" {...a11yProps(2)} />
                   <Tab key={3} label="Action" {...a11yProps(3)} />
                 </Tabs>
-
-                <Box sx={{ p: 2 }}>
-                  <List
-                    sx={{
-                      width: "100%",
-                      maxWidth: 370,
-                      py: 0,
-                      borderRadius: "10px",
-                      [theme.breakpoints.down("md")]: {
+                <PerfectScrollbar
+                  containerRef={(el) => {
+                    ps.current = el;
+                  }}
+                  style={{
+                    height: "100%",
+                    maxHeight: "calc(100vh - 300px)",
+                    overflowX: "hidden",
+                  }}
+                >
+                  <Box sx={{ p: 2 }}>
+                    <List
+                      sx={{
+                        width: "100%",
                         maxWidth: 370,
-                      },
-                      "& .MuiListItemSecondaryAction-root": {
-                        top: 22,
-                      },
-                      "& .MuiDivider-root": {
-                        my: 0,
-                      },
-                      "& .list-container": {
-                        pl: 7,
-                      },
-                    }}
-                  >
-                    {Object.keys(nodes)
-                      .sort()
-                      .map((category) => (
-                        <Accordion
-                          expanded={categoryExpanded[category] || false}
-                          onChange={handleAccordionChange(category)}
-                          key={category}
-                        >
-                          <AccordionSummary
-                            expandIcon={<ExpandMore />}
-                            aria-controls={`nodes-accordian-${category}`}
-                            id={`nodes-accordian-header-${category}`}
+                        py: 0,
+                        borderRadius: "10px",
+                        [theme.breakpoints.down("md")]: {
+                          maxWidth: 370,
+                        },
+                        "& .MuiListItemSecondaryAction-root": {
+                          top: 22,
+                        },
+                        "& .MuiDivider-root": {
+                          my: 0,
+                        },
+                        "& .list-container": {
+                          pl: 7,
+                        },
+                      }}
+                    >
+                      {Object.keys(nodes)
+                        .sort()
+                        .map((category) => (
+                          <Accordion
+                            expanded={categoryExpanded[category] || false}
+                            onChange={handleAccordionChange(category)}
+                            key={category}
                           >
-                            <Typography variant="h5">{category}</Typography>
-                          </AccordionSummary>
-                          <AccordionDetails>
-                            {nodes[category].map((node, index) => (
-                              <div
-                                key={node.name}
-                                onDragStart={(event) =>
-                                  onDragStart(event, node)
-                                }
-                                draggable
-                              >
-                                <ListItemButton
-                                  sx={{
-                                    p: 0,
-                                    cursor: "move",
-                                  }}
+                            <AccordionSummary
+                              expandIcon={<ExpandMore />}
+                              aria-controls={`nodes-accordian-${category}`}
+                              id={`nodes-accordian-header-${category}`}
+                            >
+                              <Typography variant="h5">{category}</Typography>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                              {nodes[category].map((node, index) => (
+                                <div
+                                  key={node.name}
+                                  onDragStart={(event) =>
+                                    onDragStart(event, node)
+                                  }
+                                  draggable
                                 >
-                                  <ListItem alignItems="center">
-                                    <ListItemAvatar>
-                                      <div
-                                        style={{
-                                          width: 50,
-                                          height: 50,
-                                          borderRadius: "50%",
-                                          backgroundColor: "white",
-                                        }}
-                                      >
-                                        <Image
-                                          loader={imgLoader}
-                                          width={50}
-                                          height={50}
-                                          alt={node.name}
-                                          src={node.name}
-                                        />
-                                      </div>
-                                    </ListItemAvatar>
-                                    <ListItemText
-                                      sx={{ ml: 1 }}
-                                      primary={node.label}
-                                      secondary={node.description}
-                                    />
-                                  </ListItem>
-                                </ListItemButton>
-                                {index === nodes[category].length - 1 ? null : (
-                                  <Divider />
-                                )}
-                              </div>
-                            ))}
-                          </AccordionDetails>
-                        </Accordion>
-                      ))}
-                  </List>
-                </Box>
+                                  <ListItemButton
+                                    sx={{
+                                      p: 0,
+                                      cursor: "move",
+                                    }}
+                                  >
+                                    <ListItem alignItems="center">
+                                      <ListItemAvatar>
+                                        <div
+                                          style={{
+                                            width: 50,
+                                            height: 50,
+                                            borderRadius: "50%",
+                                            backgroundColor: "white",
+                                          }}
+                                        >
+                                          <Image
+                                            loader={imgLoader}
+                                            width={50}
+                                            height={50}
+                                            alt={node.name}
+                                            src={node.name}
+                                          />
+                                        </div>
+                                      </ListItemAvatar>
+                                      <ListItemText
+                                        sx={{ ml: 1 }}
+                                        primary={node.label}
+                                        secondary={node.description}
+                                      />
+                                    </ListItem>
+                                  </ListItemButton>
+                                  {index ===
+                                  nodes[category].length - 1 ? null : (
+                                    <Divider />
+                                  )}
+                                </div>
+                              ))}
+                            </AccordionDetails>
+                          </Accordion>
+                        ))}
+                    </List>
+                  </Box>
+                </PerfectScrollbar>
               </div>
             </ClickAwayListener>
           </Paper>
@@ -330,3 +343,7 @@ const AddNodes: React.FC<Props> = ({ nodesData }) => {
 };
 
 export default AddNodes;
+
+const Container = styled.div`
+  display: flex;
+`;
