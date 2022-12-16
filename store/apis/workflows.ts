@@ -119,7 +119,10 @@ export const {
   useTestWorkflowMutation,
   useUpdateWorkflowMutation,
   useDeleteWorkflowMutation,
-  util: { getRunningQueriesThunk, getRunningMutationsThunk },
+  util: {
+    getRunningQueriesThunk: getRunningWorkflowQueries,
+    getRunningMutationsThunk: getRunningWorkflowMutations,
+  },
 } = workflowsApi;
 
 export const {
