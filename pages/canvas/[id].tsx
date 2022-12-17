@@ -14,9 +14,11 @@ export const getServerSideProps = wrapper.getServerSideProps(
 
       if (params?.id) {
         try {
-          await store
+          const flow = await store
             .dispatch(getSpecificWorkflow.initiate(params.id.toString()))
             .unwrap();
+
+          return { props: { nodes: flow.nodes, edges: flow.edges } };
         } catch (error) {
           return { notFound: true };
         }

@@ -1,5 +1,5 @@
 // TODO: convert to typescript
-import { backendApiBaseURL } from "./constants";
+import { BACKEND_API_BASE_URL } from "./constants";
 
 export const numberOrExpressionRegex = /^(\d+\.?\d*|{{.*}})$/; //return true if string consists only numbers OR expression {{}}
 
@@ -450,5 +450,5 @@ export const copyToClipboard = (e) => {
 };
 
 export function imgLoader(values) {
-  return `${backendApiBaseURL}node-icon/${values.src}`;
+  return `${BACKEND_API_BASE_URL}node-icon/${values.src}`;
 }

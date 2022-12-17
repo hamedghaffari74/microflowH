@@ -10,7 +10,7 @@ export const getStaticProps = wrapper.getStaticProps((store) => async () => {
   store.dispatch(removeTestTriggers.initiate());
   store.dispatch(deleteAllTestWebhooks.initiate());
   await Promise.all(store.dispatch(getRunningQueriesThunk()));
-  return { props: {} };
+  return { props: { nodes: [], edges: [] } };
 });
 
 export default Canvas;

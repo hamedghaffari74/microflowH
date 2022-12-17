@@ -1,6 +1,6 @@
 // TODO: restyle
 import styled from "@emotion/styled";
-import { Add, Close, ExpandMore, Search } from "@mui/icons-material";
+import { Add, CloseOutlined, ExpandMore } from "@mui/icons-material";
 import {
   Accordion,
   AccordionDetails,
@@ -9,7 +9,6 @@ import {
   ClickAwayListener,
   Divider,
   Fab,
-  InputAdornment,
   List,
   ListItem,
   ListItemAvatar,
@@ -18,7 +17,6 @@ import {
   OutlinedInput,
   Paper,
   Popper,
-  Stack,
   Tab,
   Tabs,
   Typography,
@@ -32,10 +30,10 @@ import React, {
   useRef,
   useState,
 } from "react";
-import PerfectScrollbar from "react-perfect-scrollbar";
+import { Scrollbars } from "react-custom-scrollbars";
 
 import { useAppSelector } from "hooks/reduxHooks";
-import { AllNodesResponse } from "store/apis/nodes";
+import { AllNodesResponse } from "store/apis/endpoints/nodes";
 import { selectCanvasState } from "store/slices/canvas";
 import { imgLoader } from "utils/genericHelpers";
 import { INode, ITriggerNode } from "utils/interfaces";
@@ -62,7 +60,7 @@ const AddNodes: React.FC<Props> = ({ nodesData }) => {
     [key: string]: boolean;
   }>({});
 
-  const anchorRef = useRef<HTMLButtonElement>(null);
+  const anchorRef = useRef<HTMLDivElement>(null);
   const prevOpen = useRef(open);
   const ps = useRef<HTMLElement>();
 
@@ -167,84 +165,85 @@ const AddNodes: React.FC<Props> = ({ nodesData }) => {
 
   return (
     <>
-      <Fab
-        sx={{ left: "95vw", top: 40 }}
-        ref={anchorRef}
-        size="small"
-        color="primary"
-        aria-label="add"
-        title="Add Node"
-        onClick={handleToggle}
-      >
-        {open ? <Close /> : <Add />}
-      </Fab>
+      {!open && (
+        <Fab
+          style={{
+            position: "fixed",
+            bottom: "unset",
+            right: 40,
+            top: 120,
+            left: "unset",
+            zIndex: 999,
+          }}
+          size="small"
+          color="primary"
+          aria-label="add"
+          title="Add Node"
+          onClick={handleToggle}
+        >
+          <Add />
+        </Fab>
+      )}
       <Popper
-        placement="bottom-end"
         open={open}
-        anchorEl={anchorRef.current}
         role={undefined}
         transition
         disablePortal
-        popperOptions={{
-          modifiers: [
-            {
-              name: "offset",
-              options: {
-                offset: [-40, 14],
-              },
-            },
-          ],
+        sx={{ zIndex: 1000, height: "calc(100vh - 80px)", width: 380 }}
+        style={{
+          position: "fixed",
+          bottom: "unset",
+          right: 0,
+          top: 80,
+          left: "unset",
         }}
-        sx={{ zIndex: 1000 }}
       >
         {({ TransitionProps }) => (
           <Paper>
             <ClickAwayListener onClickAway={handleClose}>
-              <div>
+              <div style={{ position: "relative", overflow: "auto" }}>
                 <Box sx={{ p: 2 }}>
-                  <Stack>
-                    <Typography variant="h4">Add Nodes</Typography>
-                  </Stack>
-                  <OutlinedInput
-                    sx={{ width: "100%", pr: 1, pl: 2, my: 2 }}
-                    id="input-search-node"
-                    value={searchValue}
-                    onChange={(e) => filterSearch(e.target.value)}
-                    placeholder="Search nodes"
-                    startAdornment={
-                      <InputAdornment position="start">
-                        <Search />
-                      </InputAdornment>
-                    }
-                    aria-describedby="search-helper-text"
-                    inputProps={{
-                      "aria-label": "weight",
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
                     }}
-                  />
-                  <Divider />
+                  >
+                    <button style={{ marginRight: 10 }} onClick={handleToggle}>
+                      <CloseOutlined />
+                    </button>
+                    <OutlinedInput
+                      sx={{ width: "100%", pr: 1, pl: 2, my: 2 }}
+                      id="input-search-node"
+                      value={searchValue}
+                      onChange={(e) => filterSearch(e.target.value)}
+                      placeholder="Search nodes"
+                      aria-describedby="search-helper-text"
+                      inputProps={{
+                        "aria-label": "weight",
+                      }}
+                    />
+                  </div>
                 </Box>
                 <Tabs
                   variant="fullWidth"
                   value={tabValue}
                   onChange={handleTabChange}
                   aria-label="nodes tabs"
+                  sx={{ borderBottom: 1, borderColor: "#E3E4E5" }}
                 >
                   <Tab key={0} label="All" {...a11yProps(0)} />
                   <Tab key={1} label="Trigger" {...a11yProps(1)} />
                   <Tab key={2} label="Webhook" {...a11yProps(2)} />
                   <Tab key={3} label="Action" {...a11yProps(3)} />
                 </Tabs>
-                <PerfectScrollbar
-                  containerRef={(el) => {
-                    ps.current = el;
-                  }}
-                  style={{
-                    height: "100%",
-                    maxHeight: "calc(100vh - 300px)",
-                    overflowX: "hidden",
-                  }}
+                <Scrollbars
+                  style={{ width: "auto", height: "calc(100vh - 250px)" }}
+                  autoHide
+                  autoHideTimeout={1000}
+                  autoHideDuration={200}
                 >
-                  <Box sx={{ p: 2 }}>
+                  <Box sx={{ p: 2, overflow: "hidden" }}>
                     <List
                       sx={{
                         width: "100%",
@@ -332,7 +331,7 @@ const AddNodes: React.FC<Props> = ({ nodesData }) => {
                         ))}
                     </List>
                   </Box>
-                </PerfectScrollbar>
+                </Scrollbars>
               </div>
             </ClickAwayListener>
           </Paper>
@@ -344,6 +343,6 @@ const AddNodes: React.FC<Props> = ({ nodesData }) => {
 
 export default AddNodes;
 
-const Container = styled.div`
-  display: flex;
+const StyledContainer = styled.div`
+  height: 50%;
 `;
