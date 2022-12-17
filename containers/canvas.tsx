@@ -45,6 +45,7 @@ import {
 import { INodeData } from "utils/interfaces";
 import theme from "utils/theme";
 import { CustomNode } from "utils/types";
+import { skipToken } from "@reduxjs/toolkit/dist/query";
 
 const edgeTypes = { buttonEdge: ButtonEdge };
 const nodeTypes = { customNode: CanvasNode };
@@ -54,13 +55,14 @@ const DEFAULT_WORKFLOW_TITLE = "Untitled workflow";
 
 export default function Canvas() {
   const { query } = useRouter();
-  const flowId = query.id?.toString() || "";
 
   const dispatch = useAppDispatch();
   const { isDirty, workflow: storeWrkflow } = useAppSelector(selectCanvasState);
 
   const { data: allNodes } = useGetAllNodesQuery();
-  const { data: workflow } = useGetSpecificWorkflowQuery(flowId);
+  const { data: workflow } = useGetSpecificWorkflowQuery(
+    query.id?.toString() ?? skipToken
+  );
 
   const reactFlowWrapper = useRef<HTMLElement>(null);
 

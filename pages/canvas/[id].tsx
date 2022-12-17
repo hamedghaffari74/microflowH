@@ -13,7 +13,13 @@ export const getServerSideProps = wrapper.getServerSideProps(
       store.dispatch(deleteAllTestWebhooks.initiate());
 
       if (params?.id) {
-        store.dispatch(getSpecificWorkflow.initiate(params.id.toString()));
+        try {
+          await store
+            .dispatch(getSpecificWorkflow.initiate(params.id.toString()))
+            .unwrap();
+        } catch (error) {
+          return { notFound: true };
+        }
       }
 
       await Promise.all(store.dispatch(getRunningQueriesThunk()));
