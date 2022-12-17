@@ -1,20 +1,9 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { HYDRATE } from "next-redux-wrapper";
-
-import { backendApiBaseURL as baseUrl } from "utils/constants";
 import { IContract, IContractRequestBody } from "utils/interfaces";
+import { emptySplitApi } from "..";
 
 type AllContractsResponse = Array<IContract>;
 
-export const contractsApi = createApi({
-  reducerPath: "executionsApi",
-  baseQuery: fetchBaseQuery({ baseUrl }),
-  extractRehydrationInfo(action, { reducerPath }) {
-    if (action.type === HYDRATE) {
-      return action.payload[reducerPath];
-    }
-  },
-
+export const contractsApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllContracts: builder.query<AllContractsResponse, void>({
       query: () => "/contracts",
@@ -52,6 +41,7 @@ export const contractsApi = createApi({
       }),
     }),
   }),
+  overrideExisting: false,
 });
 
 // use in function components
@@ -62,7 +52,6 @@ export const {
   useUpdateContractMutation,
   useGetAllContractsQuery,
   useGetSpecificContractQuery,
-  util: { getRunningQueriesThunk, getRunningMutationsThunk },
 } = contractsApi;
 
 export const {

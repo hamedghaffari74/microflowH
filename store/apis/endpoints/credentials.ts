@@ -1,22 +1,11 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { HYDRATE } from "next-redux-wrapper";
-
-import { backendApiBaseURL as baseUrl } from "utils/constants";
 import {
   ICredential,
   INodeCredential,
   IWalletResponse,
 } from "utils/interfaces";
+import { emptySplitApi } from "..";
 
-export const credentialsApi = createApi({
-  reducerPath: "credentialsApi",
-  baseQuery: fetchBaseQuery({ baseUrl }),
-  extractRehydrationInfo(action, { reducerPath }) {
-    if (action.type === HYDRATE) {
-      return action.payload[reducerPath];
-    }
-  },
-
+export const credentialsApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
     getCredentials: builder.query<
       ICredential,
@@ -64,6 +53,7 @@ export const credentialsApi = createApi({
       query: (name) => ({ url: `/node-credentials/${name}` }),
     }),
   }),
+  overrideExisting: false,
 });
 
 // use in function components
@@ -74,7 +64,6 @@ export const {
   useUpdateCredentialMutation,
   useGetCredentialsQuery,
   useGetSpecificCredentialQuery,
-  util: { getRunningQueriesThunk, getRunningMutationsThunk },
 } = credentialsApi;
 
 export const {

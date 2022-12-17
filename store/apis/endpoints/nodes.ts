@@ -1,8 +1,3 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { HYDRATE } from "next-redux-wrapper";
-import { RootState } from "store";
-
-import { backendApiBaseURL as baseUrl } from "utils/constants";
 import {
   INode,
   INodeData,
@@ -12,6 +7,7 @@ import {
   ITriggerNode,
   WebhookMethod,
 } from "utils/interfaces";
+import { emptySplitApi } from "..";
 
 export type AllNodesResponse = Array<SpecificNodeResponse>;
 type SpecificNodeResponse = INode | ITriggerNode;
@@ -32,14 +28,7 @@ interface ITestNodeArgs {
   body: ITestNodeBody;
 }
 
-export const nodesApi = createApi({
-  reducerPath: "nodesApi",
-  baseQuery: fetchBaseQuery({ baseUrl }),
-  extractRehydrationInfo(action, { reducerPath }) {
-    if (action.type === HYDRATE) {
-      return action.payload[reducerPath];
-    }
-  },
+export const nodesApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllNodes: builder.query<AllNodesResponse, void>({
       query: () => "nodes",
@@ -72,6 +61,8 @@ export const nodesApi = createApi({
       }),
     }),
   }),
+
+  overrideExisting: false,
 });
 
 // use in function components
@@ -81,7 +72,6 @@ export const {
   useLoadMethodNodeMutation,
   useTestNodeMutation,
   useRemoveTestTriggersMutation,
-  util: { getRunningQueriesThunk, getRunningMutationsThunk },
 } = nodesApi;
 
 export const {
@@ -91,5 +81,3 @@ export const {
   testNode,
   removeTestTriggers,
 } = nodesApi.endpoints;
-
-export const selectNodesState = (state: RootState) => state.nodesApi;
