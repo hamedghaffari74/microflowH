@@ -2,15 +2,9 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { HYDRATE } from "next-redux-wrapper";
 
 import { backendApiBaseURL as baseUrl } from "utils/constants";
+import { emptySplitApi } from ".";
 
-export const oauth2Api = createApi({
-  reducerPath: "oauth2Api",
-  baseQuery: fetchBaseQuery({ baseUrl }),
-  extractRehydrationInfo(action, { reducerPath }) {
-    if (action.type === HYDRATE) {
-      return action.payload[reducerPath];
-    }
-  },
+export const oauth2Api = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
     getOAuth2RedirectURL: builder.query<string, void>({
       query: () => "/oauth2-redirecturl",
@@ -23,6 +17,7 @@ export const oauth2Api = createApi({
       }),
     }),
   }),
+  overrideExisting: false,
 });
 
 // use in function components

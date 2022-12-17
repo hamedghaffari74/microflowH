@@ -1,16 +1,7 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { createWrapper, HYDRATE } from "next-redux-wrapper";
-import { contractsApi } from "./apis/contracts";
-import { credentialsApi } from "./apis/credentials";
-import { executionsApi } from "./apis/executions";
 
-import { nodesApi } from "./apis/nodes";
-import { oauth2Api } from "./apis/oauth2";
-import { walletsApi } from "./apis/wallets";
-import { webhooksApi } from "./apis/webhooks";
-import { workflowsApi } from "./apis/workflows";
-
-import { emptySplitApi } from "./apis";
+import { emptySplitApi as appApi } from "./apis";
 
 import { authSlice } from "./slices/auth";
 import { canvasSlice } from "./slices/canvas";
@@ -19,18 +10,7 @@ const combinedReducer = combineReducers({
   // app reducers
   [authSlice.name]: authSlice.reducer, // TODO: remove
   [canvasSlice.name]: canvasSlice.reducer,
-
-  // TODO: determine which slices need to persist on page navigation client side
-  // api reducers
-  // [contractsApi.reducerPath]: contractsApi.reducer,
-  // [credentialsApi.reducerPath]: credentialsApi.reducer,
-  // [executionsApi.reducerPath]: executionsApi.reducer,
-  // [nodesApi.reducerPath]: nodesApi.reducer,
-  // [oauth2Api.reducerPath]: oauth2Api.reducer,
-  // [walletsApi.reducerPath]: walletsApi.reducer,
-  // [webhooksApi.reducerPath]: webhooksApi.reducer,
-  // [workflowsApi.reducerPath]: workflowsApi.reducer,
-  [emptySplitApi.reducerPath]: emptySplitApi.reducer,
+  [appApi.reducerPath]: appApi.reducer,
 });
 
 const reducer: typeof combinedReducer = (state, action) => {
@@ -50,7 +30,7 @@ const reducer: typeof combinedReducer = (state, action) => {
 export const makeStore = () =>
   configureStore({
     reducer,
-    middleware: (gDM) => gDM().concat(emptySplitApi.middleware),
+    middleware: (gDM) => gDM().concat(appApi.middleware),
   });
 
 export type AppStore = ReturnType<typeof makeStore>;

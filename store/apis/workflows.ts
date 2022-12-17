@@ -100,6 +100,7 @@ export const workflowsApi = taggedApi.injectEndpoints({
       invalidatesTags: (result, error, id) => [{ type: "Workflows", id }],
     }),
   }),
+  overrideExisting: false,
 });
 
 export const {

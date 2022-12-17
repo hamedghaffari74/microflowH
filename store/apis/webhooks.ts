@@ -9,6 +9,7 @@ export const webhooksApi = emptySplitApi.injectEndpoints({
       }),
     }),
   }),
+  overrideExisting: false,
 });
 
 export const { useDeleteAllTestWebhooksMutation } = webhooksApi;

@@ -1,20 +1,9 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { HYDRATE } from "next-redux-wrapper";
-
-import { backendApiBaseURL as baseUrl } from "utils/constants";
 import { IExecution } from "utils/interfaces";
+import { emptySplitApi } from ".";
 
 type AllExecutionsResponse = Array<IExecution>;
 
-export const executionsApi = createApi({
-  reducerPath: "executionsApi",
-  baseQuery: fetchBaseQuery({ baseUrl }),
-  extractRehydrationInfo(action, { reducerPath }) {
-    if (action.type === HYDRATE) {
-      return action.payload[reducerPath];
-    }
-  },
-
+export const executionsApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllExecutions: builder.query<AllExecutionsResponse, void>({
       query: () => "/executions",
@@ -48,6 +37,7 @@ export const executionsApi = createApi({
       }),
     }),
   }),
+  overrideExisting: false,
 });
 
 // use in function components
