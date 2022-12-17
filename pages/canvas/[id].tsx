@@ -11,6 +11,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
       store.dispatch(getAllNodes.initiate());
       store.dispatch(removeTestTriggers.initiate());
       store.dispatch(deleteAllTestWebhooks.initiate());
+      await Promise.all(store.dispatch(getRunningQueriesThunk()));
 
       if (params?.id) {
         try {
@@ -18,13 +19,11 @@ export const getServerSideProps = wrapper.getServerSideProps(
             .dispatch(getSpecificWorkflow.initiate(params.id.toString()))
             .unwrap();
 
-          return { props: { nodes: flow.nodes, edges: flow.edges } };
+          return { props: { workflow: flow } };
         } catch (error) {
           return { notFound: true };
         }
       }
-
-      await Promise.all(store.dispatch(getRunningQueriesThunk()));
 
       return { props: {} };
     }

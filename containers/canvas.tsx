@@ -1,31 +1,29 @@
 import styled from "@emotion/styled";
+import { useTheme } from "@mui/material/styles";
 import { Box } from "@mui/system";
-import { DragEvent, useCallback, useEffect, useRef } from "react";
+import { useRouter } from "next/router";
+import { DragEvent, useCallback, useRef } from "react";
 import { batch } from "react-redux";
 import ReactFlow, {
   addEdge,
   Background,
   Connection,
   Controls,
-  Edge,
   MiniMap,
-  Node,
   ReactFlowProvider,
   useEdgesState,
   useNodesState,
   useReactFlow,
 } from "reactflow";
 
-import { skipToken } from "@reduxjs/toolkit/dist/query";
 import CanvasHeader from "components/navs/canvasHeader";
 import AddNodes from "containers/addNodes";
 import ButtonEdge from "containers/buttonEdge";
 import CanvasNode from "containers/canvasNode";
 import { useAppDispatch, useAppSelector } from "hooks/reduxHooks";
-import { useRouter } from "next/router";
 import "reactflow/dist/style.css";
 import { useGetAllNodesQuery } from "store/apis/endpoints/nodes";
-import { useGetSpecificWorkflowQuery } from "store/apis/endpoints/workflows";
+import { IAugmentedWorkflowResponse } from "store/apis/endpoints/workflows";
 import {
   selectCanvasState,
   setDirty,
@@ -39,18 +37,16 @@ import {
   getUniqueNodeId,
 } from "utils/genericHelpers";
 import { INodeData } from "utils/interfaces";
-import { useTheme } from "@mui/material/styles";
 import { CustomNode } from "utils/types";
 
 const edgeTypes = { buttonEdge: ButtonEdge };
 const nodeTypes = { customNode: CanvasNode };
 
 type Props = {
-  nodes: Node<INodeData>[];
-  edges: Edge[];
+  workflow: IAugmentedWorkflowResponse;
 };
 
-function Canvas(props: Props) {
+function Canvas({ workflow }: Props) {
   const theme = useTheme();
   const { query } = useRouter();
 
@@ -58,24 +54,13 @@ function Canvas(props: Props) {
   const { isDirty, newFlowName } = useAppSelector(selectCanvasState);
 
   const { data: allNodes } = useGetAllNodesQuery();
-  const { data: workflow } = useGetSpecificWorkflowQuery(
-    query.id?.toString() ?? skipToken
-  );
 
   const rfInstance = useReactFlow();
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(props.edges);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(workflow.edges || []);
   const [nodes, setNodes, onNodesChange] = useNodesState<INodeData>(
-    props.nodes
+    workflow.nodes || []
   );
-
-  // // set workflow when we initially load
-  // useEffect(() => {
-  //   if (workflow && !isDirty) {
-  //     setNodes(workflow.nodes);
-  //     setEdges(workflow.edges);
-  //   }
-  // }, [isDirty, setEdges, setNodes, workflow]);
 
   /********************************************
    *                Handlers                  *
