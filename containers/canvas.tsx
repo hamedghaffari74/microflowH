@@ -23,7 +23,7 @@ import CanvasNode from "containers/canvasNode";
 import { useAppDispatch, useAppSelector } from "hooks/reduxHooks";
 import { useRouter } from "next/router";
 import "reactflow/dist/style.css";
-import { selectAllNodesState } from "store/apis/nodes";
+import { useGetAllNodesQuery } from "store/apis/nodes";
 import {
   useCreateNewWorkflowMutation,
   useGetSpecificWorkflowQuery,
@@ -57,9 +57,9 @@ export default function Canvas() {
   const flowId = query.id?.toString() || "";
 
   const dispatch = useAppDispatch();
-  const allNodes = useAppSelector(selectAllNodesState);
   const { isDirty, workflow: storeWrkflow } = useAppSelector(selectCanvasState);
 
+  const { data: allNodes } = useGetAllNodesQuery();
   const { data: workflow } = useGetSpecificWorkflowQuery(flowId);
 
   const reactFlowWrapper = useRef<HTMLElement>(null);
