@@ -1,8 +1,5 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { HYDRATE } from "next-redux-wrapper";
-
-import { backendApiBaseURL as baseUrl } from "utils/constants";
 import { ITestWorkflowBody, IWorkflowResponse } from "utils/interfaces";
+import { emptySplitApi } from ".";
 
 interface IModifyWorkflowArgs {
   name: string;
@@ -25,17 +22,11 @@ interface ITestWorkflowArgs extends ITestWorkflowBody {
 
 type AllWorkflowsResponse = Array<IWorkflowResponse>;
 
-export const workflowsApi = createApi({
-  reducerPath: "workflowsApi",
-  baseQuery: fetchBaseQuery({ baseUrl }),
-  tagTypes: ["Workflows"],
+const taggedApi = emptySplitApi.enhanceEndpoints({
+  addTagTypes: ["Workflows"],
+});
 
-  extractRehydrationInfo(action, { reducerPath }) {
-    if (action.type === HYDRATE) {
-      return action.payload[reducerPath];
-    }
-  },
-
+export const workflowsApi = taggedApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllWorkflows: builder.query<AllWorkflowsResponse, void>({
       query: () => "workflows",
