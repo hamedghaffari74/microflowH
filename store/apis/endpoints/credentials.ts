@@ -3,7 +3,7 @@ import {
   INodeCredential,
   IWalletResponse,
 } from "utils/interfaces";
-import { emptySplitApi } from ".";
+import { emptySplitApi } from "..";
 
 export const credentialsApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -64,7 +64,6 @@ export const {
   useUpdateCredentialMutation,
   useGetCredentialsQuery,
   useGetSpecificCredentialQuery,
-  util: { getRunningQueriesThunk, getRunningMutationsThunk },
 } = credentialsApi;
 
 export const {

@@ -12,3 +12,7 @@ export const emptySplitApi = createApi({
   },
   endpoints: () => ({}),
 });
+
+export const {
+  util: { getRunningQueriesThunk, getRunningMutationsThunk },
+} = emptySplitApi;

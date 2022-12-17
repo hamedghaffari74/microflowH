@@ -7,7 +7,7 @@ import {
   ITriggerNode,
   WebhookMethod,
 } from "utils/interfaces";
-import { emptySplitApi } from ".";
+import { emptySplitApi } from "..";
 
 export type AllNodesResponse = Array<SpecificNodeResponse>;
 type SpecificNodeResponse = INode | ITriggerNode;
@@ -72,10 +72,6 @@ export const {
   useLoadMethodNodeMutation,
   useTestNodeMutation,
   useRemoveTestTriggersMutation,
-  util: {
-    getRunningQueriesThunk: getRunningNodeQueries,
-    getRunningMutationsThunk,
-  },
 } = nodesApi;
 
 export const {

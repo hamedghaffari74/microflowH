@@ -1,5 +1,10 @@
-import { ITestWorkflowBody, IWorkflowResponse } from "utils/interfaces";
-import { emptySplitApi } from ".";
+import { Edge, Node } from "reactflow";
+import {
+  INodeData,
+  ITestWorkflowBody,
+  IWorkflowResponse,
+} from "utils/interfaces";
+import { emptySplitApi } from "..";
 
 interface IModifyWorkflowArgs {
   name: string;
@@ -21,6 +26,11 @@ interface ITestWorkflowArgs extends ITestWorkflowBody {
 }
 
 type AllWorkflowsResponse = Array<IWorkflowResponse>;
+
+type IAugmentedWorkflowResponse = IWorkflowResponse & {
+  edges: Array<Edge>;
+  nodes: Array<Node<INodeData>>;
+};
 
 const taggedApi = emptySplitApi.enhanceEndpoints({
   addTagTypes: ["Workflows"],
@@ -46,8 +56,20 @@ export const workflowsApi = taggedApi.injectEndpoints({
       },
     }),
 
-    getSpecificWorkflow: builder.query<IWorkflowResponse, string>({
+    getSpecificWorkflow: builder.query<IAugmentedWorkflowResponse, string>({
       query: (shortId) => `/workflows/${shortId}`,
+      transformResponse: (response: IWorkflowResponse) => {
+        if (response?.flowData) {
+          const parsed = JSON.parse(response.flowData);
+          return {
+            ...response,
+            nodes: parsed.nodes || [],
+            edges: parsed.edges || [],
+          };
+        }
+
+        return response as IAugmentedWorkflowResponse;
+      },
       providesTags: (result, error, id) => [{ type: "Workflows", id }],
     }),
 
@@ -111,10 +133,6 @@ export const {
   useTestWorkflowMutation,
   useUpdateWorkflowMutation,
   useDeleteWorkflowMutation,
-  util: {
-    getRunningQueriesThunk: getRunningWorkflowQueries,
-    getRunningMutationsThunk: getRunningWorkflowMutations,
-  },
 } = workflowsApi;
 
 export const {

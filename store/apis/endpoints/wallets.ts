@@ -1,5 +1,5 @@
 import { ICommonObject, IWallet, IWalletResponse } from "utils/interfaces";
-import { emptySplitApi } from ".";
+import { emptySplitApi } from "..";
 
 type AllWalletsResponse = Array<IWallet>;
 
@@ -47,7 +47,6 @@ export const {
   useUpdateWalletMutation,
   useGetAllWalletsQuery,
   useGetSpecificWalletQuery,
-  util: { getRunningQueriesThunk, getRunningMutationsThunk },
 } = walletsApi;
 
 export const {

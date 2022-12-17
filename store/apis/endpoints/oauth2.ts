@@ -1,8 +1,4 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { HYDRATE } from "next-redux-wrapper";
-
-import { backendApiBaseURL as baseUrl } from "utils/constants";
-import { emptySplitApi } from ".";
+import { emptySplitApi } from "..";
 
 export const oauth2Api = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -21,10 +17,7 @@ export const oauth2Api = emptySplitApi.injectEndpoints({
 });
 
 // use in function components
-export const {
-  useGetOAuth2PopupURLQuery,
-  useGetOAuth2RedirectURLQuery,
-  util: { getRunningQueriesThunk, getRunningMutationsThunk },
-} = oauth2Api;
+export const { useGetOAuth2PopupURLQuery, useGetOAuth2RedirectURLQuery } =
+  oauth2Api;
 
 export const { getOAuth2PopupURL, getOAuth2RedirectURL } = oauth2Api.endpoints;

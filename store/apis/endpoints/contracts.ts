@@ -1,5 +1,5 @@
 import { IContract, IContractRequestBody } from "utils/interfaces";
-import { emptySplitApi } from ".";
+import { emptySplitApi } from "..";
 
 type AllContractsResponse = Array<IContract>;
 
@@ -52,7 +52,6 @@ export const {
   useUpdateContractMutation,
   useGetAllContractsQuery,
   useGetSpecificContractQuery,
-  util: { getRunningQueriesThunk, getRunningMutationsThunk },
 } = contractsApi;
 
 export const {

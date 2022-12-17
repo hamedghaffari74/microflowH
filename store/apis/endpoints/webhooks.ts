@@ -1,4 +1,4 @@
-import { emptySplitApi } from ".";
+import { emptySplitApi } from "..";
 
 export const webhooksApi = emptySplitApi.injectEndpoints({
   endpoints: (builder) => ({

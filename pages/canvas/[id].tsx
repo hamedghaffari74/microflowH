@@ -1,13 +1,9 @@
+import Canvas from "containers/canvas";
 import { wrapper } from "store";
-
-import {
-  getAllNodes,
-  getRunningNodeQueries,
-  removeTestTriggers,
-} from "store/apis/nodes";
-import { deleteAllTestWebhooks } from "store/apis/webhooks";
-import { getSpecificWorkflow } from "store/apis/workflows";
-import Canvas from "./index";
+import { getRunningQueriesThunk } from "store/apis";
+import { getAllNodes, removeTestTriggers } from "store/apis/endpoints/nodes";
+import { deleteAllTestWebhooks } from "store/apis/endpoints/webhooks";
+import { getSpecificWorkflow } from "store/apis/endpoints/workflows";
 
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) =>
@@ -20,7 +16,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
         store.dispatch(getSpecificWorkflow.initiate(params.id.toString()));
       }
 
-      await Promise.all(store.dispatch(getRunningNodeQueries()));
+      await Promise.all(store.dispatch(getRunningQueriesThunk()));
 
       return { props: {} };
     }

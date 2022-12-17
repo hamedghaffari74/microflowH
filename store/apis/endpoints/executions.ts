@@ -1,5 +1,5 @@
 import { IExecution } from "utils/interfaces";
-import { emptySplitApi } from ".";
+import { emptySplitApi } from "..";
 
 type AllExecutionsResponse = Array<IExecution>;
 
@@ -47,7 +47,6 @@ export const {
   useUpdateExecutionMutation,
   useGetAllExecutionsQuery,
   useGetSpecificExecutionQuery,
-  util: { getRunningQueriesThunk, getRunningMutationsThunk },
 } = executionsApi;
 
 export const {

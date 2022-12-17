@@ -23,12 +23,12 @@ import CanvasNode from "containers/canvasNode";
 import { useAppDispatch, useAppSelector } from "hooks/reduxHooks";
 import { useRouter } from "next/router";
 import "reactflow/dist/style.css";
-import { useGetAllNodesQuery } from "store/apis/nodes";
+import { useGetAllNodesQuery } from "store/apis/endpoints/nodes";
 import {
   useCreateNewWorkflowMutation,
   useGetSpecificWorkflowQuery,
   useUpdateWorkflowMutation,
-} from "store/apis/workflows";
+} from "store/apis/endpoints/workflows";
 import {
   selectCanvasState,
   setDirty,
@@ -72,12 +72,11 @@ export default function Canvas() {
 
   // set workflow when we initially load
   useEffect(() => {
-    if (workflow?.flowData && !isDirty) {
-      const parsed = JSON.parse(workflow.flowData);
-      setNodes(parsed.nodes);
-      setEdges(parsed.edges);
+    if (workflow && !isDirty) {
+      setNodes(workflow.nodes);
+      setEdges(workflow.edges);
     }
-  }, [isDirty, setEdges, setNodes, workflow?.flowData]);
+  }, [isDirty, setEdges, setNodes, workflow]);
 
   /*** Save workflow: Move */
   const [openSaveDialog, setOpenSaveDialog] = useState(false);
