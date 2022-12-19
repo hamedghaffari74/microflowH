@@ -43,7 +43,7 @@ import {
   getUniqueNodeId,
 } from "utils/genericHelpers";
 import { INodeData } from "utils/interfaces";
-import theme from "utils/theme";
+import { useTheme } from "@mui/material/styles";
 import { CustomNode } from "utils/types";
 import { skipToken } from "@reduxjs/toolkit/dist/query";
 
@@ -54,6 +54,7 @@ const defaultViewport: Viewport = { x: 10, y: 15, zoom: 5 };
 const DEFAULT_WORKFLOW_TITLE = "Untitled workflow";
 
 export default function Canvas() {
+  const theme = useTheme()
   const { query } = useRouter();
 
   const dispatch = useAppDispatch();
@@ -258,8 +259,8 @@ export default function Canvas() {
             <AddNodes nodesData={allNodes || []} />
             <Background color="#00f" gap={16} />
             <MiniMap
-              nodeStrokeColor={() => theme.palette.primary.main}
-              nodeColor={() => theme.palette.primary.main}
+              nodeStrokeColor={theme.palette.primary.main}
+              nodeColor={theme.palette.primary.main}
               nodeBorderRadius={2}
               pannable
               zoomable

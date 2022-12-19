@@ -9,6 +9,7 @@ import {
   getAllWorkflows,
   useGetAllWorkflowsQuery,
 } from "store/apis/endpoints/workflows";
+import UiButton from "components/uiButton";
 
 // should use getStaticProps if this is something that doesn't change
 export const getServerSideProps = wrapper.getServerSideProps(
@@ -42,6 +43,45 @@ export default function Home() {
             {w.name}
           </Link>
         ))}
+      </Box>
+      <Box
+        sx={{
+          my: 4,
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: '5px'
+        }}
+      >
+        <UiButton variant="contained" label="Enabled" />
+        <UiButton variant="contained" label="Disabled" disabled />
+      </Box>
+      <Box
+        sx={{
+          my: 4,
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: '5px'
+        }}
+      >
+        <UiButton variant="outlined" label="Enabled" />
+        <UiButton variant="outlined" label="Disabled" disabled />
+      </Box>
+      <Box
+        sx={{
+          my: 4,
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: '5px'
+        }}
+      >
+        <UiButton variant="text" label="Enabled" />
+        <UiButton variant="text" label="Disabled" disabled />
       </Box>
     </Container>
   );
