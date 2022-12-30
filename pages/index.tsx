@@ -11,17 +11,15 @@ import {
 } from "store/apis/endpoints/workflows";
 import UiButton from "components/uiButton";
 
-// should use getStaticProps if this is something that doesn't change
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => async () => {
-    store.dispatch(getAllWorkflows.initiate());
-    await Promise.all(store.dispatch(getRunningQueriesThunk()));
-    return { props: {} };
-  }
-);
+export const getStaticProps = wrapper.getStaticProps((store) => async () => {
+  store.dispatch(getAllWorkflows.initiate());
+  await Promise.all(store.dispatch(getRunningQueriesThunk()));
+
+  return { props: {} };
+});
 
 export default function Home() {
-  const { data: workflows = [] } = useGetAllWorkflowsQuery();
+  const { data: workflows } = useGetAllWorkflowsQuery();
   return (
     <Container maxWidth="lg">
       <Box
@@ -38,7 +36,7 @@ export default function Home() {
         </Link>
 
         <Typography>All Workflows:</Typography>
-        {workflows.map((w) => (
+        {workflows?.map((w) => (
           <Link key={w._id} href={`/canvas/${w.shortId}`}>
             {w.name}
           </Link>
@@ -51,7 +49,7 @@ export default function Home() {
           flexDirection: "row",
           justifyContent: "center",
           alignItems: "center",
-          gap: '5px'
+          gap: "5px",
         }}
       >
         <UiButton variant="contained" label="Enabled" />
@@ -64,7 +62,7 @@ export default function Home() {
           flexDirection: "row",
           justifyContent: "center",
           alignItems: "center",
-          gap: '5px'
+          gap: "5px",
         }}
       >
         <UiButton variant="outlined" label="Enabled" />
@@ -77,7 +75,7 @@ export default function Home() {
           flexDirection: "row",
           justifyContent: "center",
           alignItems: "center",
-          gap: '5px'
+          gap: "5px",
         }}
       >
         <UiButton variant="text" label="Enabled" />

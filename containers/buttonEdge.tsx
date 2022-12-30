@@ -2,14 +2,15 @@ import styled from "@emotion/styled";
 import React, { useCallback } from "react";
 import { EdgeProps, EdgeText, getBezierPath, useReactFlow } from "reactflow";
 
-import { useAppDispatch } from "hooks/reduxHooks";
-import { setDirty } from "store/slices/canvas";
+import { useAppDispatch, useAppSelector } from "hooks/reduxHooks";
+import { selectCanvasState, setDirty } from "store/slices/canvas";
 
 // TODO: restyle
 const foreignObjectSize = 40;
 
 const ButtonEdge: React.FC<EdgeProps> = (props) => {
   const dispatch = useAppDispatch();
+  const { isDirty } = useAppSelector(selectCanvasState);
   const { setEdges } = useReactFlow();
 
   const [edgePath, labelX, labelY] = getBezierPath({
@@ -25,9 +26,10 @@ const ButtonEdge: React.FC<EdgeProps> = (props) => {
     (event: React.MouseEvent) => {
       event.stopPropagation();
       setEdges((edges) => edges.filter((e) => e.id !== props.id));
-      dispatch(setDirty());
+
+      if (!isDirty) dispatch(setDirty());
     },
-    [dispatch, props.id, setEdges]
+    [dispatch, isDirty, props.id, setEdges]
   );
 
   return (

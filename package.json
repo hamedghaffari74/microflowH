@@ -19,14 +19,15 @@
     "next": "latest",
     "next-redux-wrapper": "^8.0.0",
     "react": "latest",
+    "react-custom-scrollbars": "^4.2.1",
     "react-dom": "latest",
-    "react-perfect-scrollbar": "^1.5.8",
     "react-redux": "^8.0.5",
     "reactflow": "^11.3.3"
   },
   "devDependencies": {
     "@types/node": "latest",
     "@types/react": "latest",
+    "@types/react-custom-scrollbars": "^4.0.10",
     "eslint": "8.28.0",
     "eslint-config-next": "13.0.5",
     "eslint-config-prettier": "^8.5.0",

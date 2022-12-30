@@ -27,7 +27,7 @@ interface ITestWorkflowArgs extends ITestWorkflowBody {
 
 type AllWorkflowsResponse = Array<IWorkflowResponse>;
 
-type IAugmentedWorkflowResponse = IWorkflowResponse & {
+export type IAugmentedWorkflowResponse = IWorkflowResponse & {
   edges: Array<Edge>;
   nodes: Array<Node<INodeData>>;
 };

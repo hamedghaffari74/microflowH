@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { HYDRATE } from "next-redux-wrapper";
 
-import { backendApiBaseURL as baseUrl } from "utils/constants";
+import { BACKEND_API_BASE_URL as baseUrl } from "utils/constants";
 
 export const emptySplitApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl }),
