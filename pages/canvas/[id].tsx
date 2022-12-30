@@ -4,29 +4,31 @@ import { getRunningQueriesThunk } from "store/apis";
 import { getAllNodes, removeTestTriggers } from "store/apis/endpoints/nodes";
 import { deleteAllTestWebhooks } from "store/apis/endpoints/webhooks";
 import { getSpecificWorkflow } from "store/apis/endpoints/workflows";
+import { BACKEND_API_BASE_URL } from "utils/constants";
+import { IWorkflowResponse } from "utils/interfaces";
 
-// export const getServerSideProps = wrapper.getServerSideProps(
-//   (store) =>
-//     async ({ params }) => {
-//       store.dispatch(getAllNodes.initiate());
-//       store.dispatch(removeTestTriggers.initiate());
-//       store.dispatch(deleteAllTestWebhooks.initiate());
-//       await Promise.all(store.dispatch(getRunningQueriesThunk()));
+export async function getStaticPaths() {
+  // TODO: should get all workflows associated with account instead
+  const flows = await (await fetch(BACKEND_API_BASE_URL + "workflows")).json();
 
-//       if (params?.id) {
-//         try {
-//           const flow = await store
-//             .dispatch(getSpecificWorkflow.initiate(params.id.toString()))
-//             .unwrap();
+  const paths = flows.map((f: IWorkflowResponse) => ({
+    params: { id: f.shortId },
+  }));
 
-//           return { props: { workflow: flow } };
-//         } catch (error) {
-//           return { notFound: true };
-//         }
-//       }
+  return { paths, fallback: false };
+}
 
-//       return { props: {} };
-//     }
-// );
+export const getStaticProps = wrapper.getStaticProps(
+  (store) =>
+    async ({ params }) => {
+      store.dispatch(getAllNodes.initiate());
+      store.dispatch(removeTestTriggers.initiate());
+      store.dispatch(deleteAllTestWebhooks.initiate());
+      store.dispatch(getSpecificWorkflow.initiate(params?.id as string));
+      await Promise.all(store.dispatch(getRunningQueriesThunk()));
+
+      return { props: {} };
+    }
+);
 
 export default Canvas;
