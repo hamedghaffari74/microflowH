@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
-import { useTheme } from "@mui/material/styles";
+import { useTheme } from "@mui/material";
 import { Box } from "@mui/system";
 import { useRouter } from "next/router";
-import { DragEvent, useCallback, useRef } from "react";
+import { DragEvent, useCallback, useEffect, useRef } from "react";
 import { batch } from "react-redux";
 import ReactFlow, {
   addEdge,
@@ -16,6 +16,7 @@ import ReactFlow, {
   useReactFlow,
 } from "reactflow";
 
+import { skipToken } from "@reduxjs/toolkit/dist/query";
 import CanvasHeader from "components/navs/canvasHeader";
 import AddNodes from "containers/addNodes";
 import ButtonEdge from "containers/buttonEdge";
@@ -23,7 +24,7 @@ import CanvasNode from "containers/canvasNode";
 import { useAppDispatch, useAppSelector } from "hooks/reduxHooks";
 import "reactflow/dist/style.css";
 import { useGetAllNodesQuery } from "store/apis/endpoints/nodes";
-import { IAugmentedWorkflowResponse } from "store/apis/endpoints/workflows";
+import { useGetSpecificWorkflowQuery } from "store/apis/endpoints/workflows";
 import {
   selectCanvasState,
   setDirty,
@@ -42,11 +43,7 @@ import { CustomNode } from "utils/types";
 const edgeTypes = { buttonEdge: ButtonEdge };
 const nodeTypes = { customNode: CanvasNode };
 
-type Props = {
-  workflow: IAugmentedWorkflowResponse;
-};
-
-function Canvas({ workflow }: Props) {
+function Canvas() {
   const theme = useTheme();
   const { query } = useRouter();
 
@@ -54,13 +51,21 @@ function Canvas({ workflow }: Props) {
   const { isDirty, newFlowName } = useAppSelector(selectCanvasState);
 
   const { data: allNodes } = useGetAllNodesQuery();
+  const { data: workflow } = useGetSpecificWorkflowQuery(
+    (query.id as string) ?? skipToken
+  );
 
   const rfInstance = useReactFlow();
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(workflow.edges || []);
-  const [nodes, setNodes, onNodesChange] = useNodesState<INodeData>(
-    workflow.nodes || []
-  );
+  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const [nodes, setNodes, onNodesChange] = useNodesState<INodeData>([]);
+
+  useEffect(() => {
+    if (workflow) {
+      setEdges(workflow.edges);
+      setNodes(workflow.nodes);
+    }
+  }, [setEdges, setNodes, workflow]);
 
   /********************************************
    *                Handlers                  *
@@ -203,10 +208,10 @@ function Canvas({ workflow }: Props) {
   );
 }
 
-export default function CanvasWithProvider(props: Props) {
+export default function CanvasWithProvider() {
   return (
     <ReactFlowProvider>
-      <Canvas {...props} />
+      <Canvas />
     </ReactFlowProvider>
   );
 }
