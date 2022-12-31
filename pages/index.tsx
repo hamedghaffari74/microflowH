@@ -10,6 +10,7 @@ import {
   useGetAllWorkflowsQuery,
 } from "store/apis/endpoints/workflows";
 import UiButton from "components/uiButton";
+import { defaultLayout } from "layouts/defaultLayouts";
 
 export const getStaticProps = wrapper.getStaticProps((store) => async () => {
   store.dispatch(getAllWorkflows.initiate());
@@ -84,3 +85,6 @@ export default function Home() {
     </Container>
   );
 }
+
+Home.pageLayout = defaultLayout;
+
