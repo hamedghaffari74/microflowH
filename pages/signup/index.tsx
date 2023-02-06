@@ -1,7 +1,6 @@
 import { Button, Container, IconButton, InputAdornment, TextField, Theme, Typography } from "@mui/material";
 
 import { makeStyles, createStyles } from "@mui/styles";
-
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Box } from "@mui/system";
 import loginLogo from "../../images/login.svg";
@@ -20,47 +19,63 @@ const useStyles = makeStyles((theme: Theme) =>
    })
 );
 
-export default function Login() {
-   const [showPassword, setShowPassword] = useState<boolean>(false);
-   const [email, setEmail] = useState<string>("");
+export default function SignUp() {
    const [password, setPassword] = useState<string>("");
-   const [emailIsValid, setEmailIsValid] = useState<boolean>(true);
-   const [emailErrorText, setEmailErrorText] = useState<string>("");
+   const [showPassword, setShowPassword] = useState<boolean>(false);
+   const [repeatPassword, setRepeatPassword] = useState<string>("");
+   const [repeatPasswordError, setRepeatPasswordError] = useState<string>("");
+   const [showRepeatPassword, setShowRepeatPassword] = useState<boolean>(false);
+   const [email, setEmail] = useState<string>("");
+   const [emailError, setemailError] = useState<string>("");
+   //    const [emailIsValid, setEmailIsValid] = useState<boolean>(true);
    // const [passwordIsValid, setPasswordIsValid] = useState<boolean>(true);
    const classes = useStyles();
 
-   const emailChangeHandler = (event: FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>) => {
+   const repeatPasswordChangeHandler = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+      const repeatPassTemp = event.target.value.trim();
+      setRepeatPassword(repeatPassTemp);
+
+      if (repeatPassTemp === password) {
+         // password and it's repeat are the same ...
+
+         setRepeatPasswordError("");
+      } else {
+         setRepeatPasswordError("Password and repeat password does not match");
+      }
+   };
+
+   const emailBlurHandler = (event: FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>) => {
       setShowPassword(false);
       setEmail(event.target.value.trim());
 
       if (event.target.value.trim() === "") {
-         setEmailIsValid(false);
-         setEmailErrorText("Email is empty");
+         //    setEmailIsValid(false);
+         setemailError("Email is empty");
          return;
       }
       const emailIsValidTemp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(event.target.value);
-      setEmailIsValid(emailIsValidTemp);
+      // setEmailIsValid(emailIsValidTemp);
       if (!emailIsValidTemp) {
-         setEmailErrorText("Email format is wrong");
+         setemailError("Email format is wrong");
       } else {
-         setEmailErrorText("");
+         setemailError("");
       }
    };
 
-   const loginHandler = (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
+   const signUpHandler = (event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
       if (email === "") {
-         setEmailIsValid(false);
-         setEmailErrorText("Email is empty");
+         //    setEmailIsValid(false);
+         setemailError("Email is empty");
          return;
       }
 
       const emailIsValidTemp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
 
-      setEmailIsValid(emailIsValidTemp);
+      // setEmailIsValid(emailIsValidTemp);
       if (!emailIsValidTemp) {
-         setEmailErrorText("Email format is wrong");
+         setemailError("Email format is wrong");
       } else {
-         setEmailErrorText("");
+         setemailError("");
       }
       /*** password validation check */
    };
@@ -69,12 +84,11 @@ export default function Login() {
       <Box
          sx={{
             display: "flex",
-            width: "75%",
+            width: "70%",
             height: "100vh",
-            mx: "auto",
+            margin: "auto",
             justifyContent: "center",
             alignItems: "center",
-            maxWidth: "75rem",
          }}
       >
          <Box>
@@ -86,7 +100,7 @@ export default function Login() {
                height: "80%",
                display: "flex",
                flexDirection: "column",
-               justifyContent: "center",
+               justifyContent: "space-between",
                width: "35%",
             }}
          >
@@ -100,9 +114,9 @@ export default function Login() {
                      fullWidth
                      label="Email"
                      type="email"
-                     error={!emailIsValid}
-                     helperText={emailErrorText}
-                     onBlur={emailChangeHandler}
+                     error={emailError !== ""}
+                     helperText={emailError}
+                     onBlur={emailBlurHandler}
                   ></TextField>
                </Box>
                <Box sx={{ mt: "1rem" }}>
@@ -126,6 +140,29 @@ export default function Login() {
                         ),
                      }}
                   ></TextField>
+                  <Box />
+                  <Box sx={{ mt: "1rem" }}>
+                     <TextField
+                        required
+                        fullWidth
+                        label="Repeat Password"
+                        error={repeatPasswordError !== ""}
+                        onChange={repeatPasswordChangeHandler}
+                        helperText={repeatPasswordError}
+                        type={showRepeatPassword ? "text" : "password"}
+                        InputProps={{
+                           endAdornment: (
+                              <InputAdornment
+                                 sx={{ cursor: "pointer" }}
+                                 onClick={() => setShowRepeatPassword(!showRepeatPassword)}
+                                 position="end"
+                              >
+                                 {!repeatPassword ? null : showRepeatPassword ? <VisibilityOff /> : <Visibility />}
+                              </InputAdornment>
+                           ),
+                        }}
+                     ></TextField>
+                  </Box>
                   <Link
                      style={{
                         marginTop: "8px",
@@ -141,7 +178,7 @@ export default function Login() {
                </Box>
                <Button
                   fullWidth
-                  onClick={loginHandler}
+                  onClick={signUpHandler}
                   type="submit"
                   sx={{ mt: "2rem", bgcolor: "black" }}
                   variant="contained"
@@ -163,7 +200,6 @@ export default function Login() {
                   color: "#1D1F61",
                   textDecoration: "none",
                   textAlign: "center",
-                  marginTop: "4rem",
                }}
                href="/signup"
             >
