@@ -1,11 +1,21 @@
+import {
+    WatchStatus,
+    Star1,
+    Building,
+    Cpu,
+    AddSquare,
+    People,
+    Setting2,
+} from "iconsax-react";
+
 interface routes {
     title: string;
-    submenuItems: subRouteItems[]
+    submenuItems: subRouteItems[];
 }
 
 interface subRouteItems {
     title: string;
-    icon: string;
+    icon: JSX.Element;
     path: string;
 }
 
@@ -15,18 +25,18 @@ const Routes: routes[] = [
         submenuItems: [
             {
                 title: "All automations",
-                icon: "",
-                path:'/'
+                icon: <WatchStatus />,
+                path: "/",
             },
             {
                 title: "Starred automations",
-                icon: "",
-                path:'/'
+                icon: <Star1 />,
+                path: "/",
             },
             {
                 title: "Community",
-                icon: "",
-                path:'/'
+                icon: <Building />,
+                path: "/",
             },
         ],
     },
@@ -35,13 +45,13 @@ const Routes: routes[] = [
         submenuItems: [
             {
                 title: "Configured nodes",
-                icon: "",
-                path:'/'
+                icon: <Cpu />,
+                path: "/",
             },
             {
                 title: "Add custom node",
-                icon: "",
-                path:'/'
+                icon: <AddSquare />,
+                path: "/",
             },
         ],
     },
@@ -50,13 +60,13 @@ const Routes: routes[] = [
         submenuItems: [
             {
                 title: "Members",
-                icon: "",
-                path:'/'
+                icon: <People />,
+                path: "/",
             },
             {
                 title: "Team setting",
-                icon: "",
-                path:'/'
+                icon: <Setting2 />,
+                path: "/",
             },
         ],
     },

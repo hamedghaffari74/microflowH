@@ -16,6 +16,7 @@
     "@mui/material": "latest",
     "@next/font": "latest",
     "@reduxjs/toolkit": "^1.9.1",
+    "iconsax-react": "^0.0.8",
     "next": "latest",
     "next-redux-wrapper": "^8.0.0",
     "react": "latest",
