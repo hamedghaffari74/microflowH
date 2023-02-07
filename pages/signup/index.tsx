@@ -1,7 +1,7 @@
 import { Button, Container, IconButton, InputAdornment, TextField, Theme, Typography } from "@mui/material";
 
 import { makeStyles, createStyles } from "@mui/styles";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+// import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Box } from "@mui/system";
 import loginLogo from "../../images/login.svg";
 import Link from "next/link";
@@ -20,6 +20,8 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export default function SignUp() {
+   const classes = useStyles();
+
    const [password, setPassword] = useState<string>("");
    const [showPassword, setShowPassword] = useState<boolean>(false);
    const [repeatPassword, setRepeatPassword] = useState<string>("");
@@ -29,7 +31,6 @@ export default function SignUp() {
    const [emailError, setemailError] = useState<string>("");
    //    const [emailIsValid, setEmailIsValid] = useState<boolean>(true);
    // const [passwordIsValid, setPasswordIsValid] = useState<boolean>(true);
-   const classes = useStyles();
 
    const repeatPasswordChangeHandler = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
       const repeatPassTemp = event.target.value.trim();
@@ -84,11 +85,12 @@ export default function SignUp() {
       <Box
          sx={{
             display: "flex",
-            width: "70%",
-            height: "100vh",
-            margin: "auto",
             justifyContent: "center",
             alignItems: "center",
+            width: "75%",
+            height: "100vh",
+            mx: "auto",
+            maxWidth: "75rem",
          }}
       >
          <Box>
@@ -96,17 +98,18 @@ export default function SignUp() {
          </Box>
          <Box
             sx={{
-               margin: "auto",
-               height: "80%",
                display: "flex",
                flexDirection: "column",
-               justifyContent: "space-between",
-               width: "35%",
+               justifyContent: "center",
+               alignItems: "center",
+               mx: "auto",
+               height: "80%",
+               width: "40%",
             }}
          >
             <Box>
                <Typography fontWeight="bold" variant="h4">
-                  Login
+                  Signup
                </Typography>
                <Box sx={{ mt: "2rem" }}>
                   <TextField
@@ -124,7 +127,7 @@ export default function SignUp() {
                      required
                      fullWidth
                      label="Password"
-                     error={false}
+                     // error={false}
                      onChange={(event) => setPassword(event.target.value)}
                      // helperText="Empty field!"
                      type={showPassword ? "text" : "password"}
@@ -199,11 +202,12 @@ export default function SignUp() {
                style={{
                   color: "#1D1F61",
                   textDecoration: "none",
-                  textAlign: "center",
+                  marginTop: "2rem",
+                  // textAlign: "center",
                }}
-               href="/signup"
+               href="/login"
             >
-               Don’t have an account? Register
+               Already have an account? Login
             </Link>
          </Box>
       </Box>

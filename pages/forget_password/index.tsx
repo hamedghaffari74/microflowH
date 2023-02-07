@@ -9,14 +9,6 @@ import Image from "next/image";
 import LeftArrow from "../../images/left-arrow.svg";
 import { FocusEvent, MouseEvent, useState } from "react";
 
-const useStyles = makeStyles((theme: Theme) =>
-   createStyles({
-      icons: {
-         marginRight: "8px",
-      },
-   })
-);
-
 export default function ForgetPassword() {
    const router = useRouter();
 

@@ -1,35 +1,12 @@
-import {
-   Autocomplete,
-   Button,
-   Container,
-   IconButton,
-   InputAdornment,
-   TextField,
-   Theme,
-   Typography,
-} from "@mui/material";
+import { Autocomplete, Button, TextField, Typography } from "@mui/material";
 
-import { makeStyles, createStyles } from "@mui/styles";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Box } from "@mui/system";
 import loginLogo from "../../images/login.svg";
 import Link from "next/link";
 import Image from "next/image";
 import leftArrow from "../../images/left-arrow.svg";
-// import { ChangeEvent, FocusEvent, MouseEvent, useState } from "react";
-// import { Visibility, VisibilityOff } from "@mui/icons-material";
-
-const useStyles = makeStyles((theme: Theme) =>
-   createStyles({
-      icons: {
-         marginRight: "8px",
-      },
-   })
-);
 
 export default function KnowYouBetter() {
-   const classes = useStyles();
-
    return (
       <Box
          sx={{
