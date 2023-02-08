@@ -3,9 +3,8 @@ import { Box } from "@mui/system";
 import Image from "next/image";
 import { NextPage } from "next";
 import { useState } from "react";
-const CommunityBox: NextPage<{ logoSrc: any; boxTitle: string }> = (props) => {
+const CommunityBox: NextPage<{ logoSrc: any; boxTitle: string; logoSize: string }> = (props) => {
    const [boxIsSelected, setBoxIsSelected] = useState<boolean>(false);
-   const red = "red";
    return (
       <Box
          onClick={() => setBoxIsSelected(!boxIsSelected)}
@@ -14,17 +13,17 @@ const CommunityBox: NextPage<{ logoSrc: any; boxTitle: string }> = (props) => {
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            width: "8rem",
-            height: "7rem",
+            width: "160px",
+            height: "141px",
             color: "#6F788B",
-            borderRadius: "8px",
+            borderRadius: "12px",
             border: "2px solid",
             borderColor: boxIsSelected ? "#0A274A" : "#CAD2DC",
             cursor: "pointer",
          }}
       >
          <Image
-            style={{ width: "3.5rem", height: "2.5rem", marginBottom: "1.5rem", opacity: "0.7" }}
+            style={{ width: props.logoSize, height: props.logoSize, marginBottom: "1.5rem" }}
             src={props.logoSrc}
             alt="discord logo"
          />

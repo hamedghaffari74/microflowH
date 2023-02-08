@@ -1,15 +1,12 @@
-import { Button, Container, IconButton, InputAdornment, TextField, Theme, Typography } from "@mui/material";
-
+import { Button, InputAdornment, TextField, Theme, Typography } from "@mui/material";
 import { makeStyles, createStyles } from "@mui/styles";
-
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Box } from "@mui/system";
 import loginLogo from "../../images/login.svg";
 import Link from "next/link";
 import Image from "next/image";
 import googleIcon from "../../images/google.svg";
 import discordIcon from "../../images/discord.svg";
-import { ChangeEvent, FocusEvent, MouseEvent, useState } from "react";
+import { FocusEvent, MouseEvent, useState } from "react";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -21,13 +18,14 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export default function Login() {
+   const classes = useStyles();
+
    const [showPassword, setShowPassword] = useState<boolean>(false);
    const [email, setEmail] = useState<string>("");
    const [password, setPassword] = useState<string>("");
    const [emailIsValid, setEmailIsValid] = useState<boolean>(true);
    const [emailErrorText, setEmailErrorText] = useState<string>("");
    // const [passwordIsValid, setPasswordIsValid] = useState<boolean>(true);
-   const classes = useStyles();
 
    const emailChangeHandler = (event: FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>) => {
       setShowPassword(false);
@@ -69,32 +67,30 @@ export default function Login() {
       <Box
          sx={{
             display: "flex",
-            width: "75%",
             height: "100vh",
             mx: "auto",
             justifyContent: "center",
             alignItems: "center",
-            maxWidth: "75rem",
+            maxWidth: "78.25rem",
          }}
       >
          <Box>
-            <Image width={450} height={600} src={loginLogo} alt="logo image"></Image>
+            <Image width={650} height={864} src={loginLogo} alt="logo image"></Image>
          </Box>
          <Box
             sx={{
-               margin: "auto",
-               height: "80%",
+               width: "41rem",
+               height: "54rem",
                display: "flex",
+               margin: "4rem 0 0 5rem",
                flexDirection: "column",
-               justifyContent: "center",
-               width: "35%",
             }}
          >
             <Box>
-               <Typography fontWeight="bold" variant="h4">
+               <Typography fontWeight={700} fontSize={40}>
                   Login
                </Typography>
-               <Box sx={{ mt: "2rem" }}>
+               <Box sx={{ mt: "3.5rem" }}>
                   <TextField
                      required
                      fullWidth
@@ -110,7 +106,7 @@ export default function Login() {
                      required
                      fullWidth
                      label="Password"
-                     error={false}
+                     // error={false}
                      onChange={(event) => setPassword(event.target.value)}
                      // helperText="Empty field!"
                      type={showPassword ? "text" : "password"}
@@ -128,7 +124,7 @@ export default function Login() {
                   ></TextField>
                   <Link
                      style={{
-                        marginTop: "8px",
+                        marginTop: "28px",
                         color: "#1D1F61",
                         textDecoration: "none",
                         display: "block",
@@ -139,16 +135,10 @@ export default function Login() {
                      forget password
                   </Link>
                </Box>
-               <Button
-                  fullWidth
-                  onClick={loginHandler}
-                  type="submit"
-                  sx={{ mt: "2rem", bgcolor: "black" }}
-                  variant="contained"
-               >
-                  Login
+               <Button fullWidth onClick={loginHandler} type="submit" sx={{ mt: "58px" }} variant="contained">
+                  <Typography sx={{ fontWeight: "600" }}>Login</Typography>
                </Button>
-               <Button sx={{ mt: "2rem", mb: "1rem" }} variant="outlined" fullWidth>
+               <Button sx={{ mt: "24px", mb: "12px" }} variant="outlined" fullWidth>
                   <Image className={classes.icons} src={googleIcon} alt="google icon"></Image>
                   Continue with <b>&nbsp;Google</b>
                </Button>
@@ -158,17 +148,20 @@ export default function Login() {
                   <b>&nbsp;Discord</b>
                </Button>
             </Box>
-            <Link
-               style={{
-                  color: "#1D1F61",
-                  textDecoration: "none",
-                  textAlign: "center",
-                  marginTop: "4rem",
-               }}
-               href="/signup"
-            >
-               Don’t have an account? Register
-            </Link>
+            <Typography sx={{ color: "#1D1F61", textAlign: "center", mt: "13rem" }}>
+               Don’t have an account?{" "}
+               <Link
+                  style={{
+                     textDecoration: "none",
+                     color: "#1D1F61",
+                     fontWeight: "bold",
+                  }}
+                  href="/signup"
+               >
+                  {"  "}
+                  Register
+               </Link>
+            </Typography>
          </Box>
       </Box>
    );

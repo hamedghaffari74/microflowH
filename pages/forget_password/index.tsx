@@ -1,8 +1,5 @@
-import { Button, Container, IconButton, InputAdornment, TextField, Theme, Typography } from "@mui/material";
+import { Button, TextField, Typography } from "@mui/material";
 import { useRouter } from "next/router";
-import { makeStyles, createStyles } from "@mui/styles";
-
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Box } from "@mui/system";
 import loginLogo from "../../images/login.svg";
 import Image from "next/image";
@@ -47,38 +44,36 @@ export default function ForgetPassword() {
       <Box
          sx={{
             display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: "75%",
             height: "100vh",
             mx: "auto",
-            maxWidth: "75rem",
+            justifyContent: "center",
+            alignItems: "center",
+            maxWidth: "78.25rem",
          }}
       >
          <Box>
-            <Image width={450} height={600} src={loginLogo} alt="logo image"></Image>
+            <Image width={650} height={864} src={loginLogo} alt="logo image"></Image>
          </Box>
          <Box
             sx={{
                display: "flex",
-               alignItems: "center",
-               mx: "auto",
-               mb: "15rem",
-               height: "80%",
-               width: "40%",
+               flexDirection: "column",
+               width: "41rem",
+               height: "54rem",
+               margin: "4rem 0 0 5rem",
             }}
          >
             <Box>
-               <Box sx={{ display: "flex", justifyContent: "start" }}>
+               <Box sx={{ display: "flex", justifyContent: "start", alignItems: "center" }}>
                   <Image src={LeftArrow} alt="left subquare arrow"></Image>
-                  <Typography sx={{ color: "#0E1C2B", ml: "8px" }} fontWeight="bold" variant="h4">
+                  <Typography fontWeight={700} fontSize={40} variant="h4" sx={{ ml: "8px" }}>
                      Forget your password
                   </Typography>
                </Box>
-               <Typography sx={{ color: "#1D1F61", mt: "1rem" }}>
+               <Typography sx={{ color: "#1D1F61", mt: "20px" }}>
                   Enter your email address and we will share a link to create a new password.
                </Typography>
-               <Box sx={{ mt: "2rem" }}>
+               <Box sx={{ mt: "40px" }}>
                   <TextField
                      fullWidth
                      label="Email"
@@ -88,14 +83,8 @@ export default function ForgetPassword() {
                      onBlur={emailChangeHandler}
                   ></TextField>
                </Box>
-               <Button
-                  onClick={loginHandler}
-                  type="submit"
-                  fullWidth
-                  sx={{ mt: "2rem", bgcolor: "black" }}
-                  variant="contained"
-               >
-                  Send
+               <Button onClick={loginHandler} type="submit" fullWidth sx={{ mt: "40px" }} variant="contained">
+                  <Typography sx={{ fontWeight: "600" }}>Send</Typography>
                </Button>
             </Box>
          </Box>

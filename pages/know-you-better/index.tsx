@@ -1,5 +1,4 @@
 import { Autocomplete, Button, TextField, Typography } from "@mui/material";
-
 import { Box } from "@mui/system";
 import loginLogo from "../../images/login.svg";
 import Link from "next/link";
@@ -11,39 +10,36 @@ export default function KnowYouBetter() {
       <Box
          sx={{
             display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            width: "75%",
             height: "100vh",
             mx: "auto",
-            maxWidth: "75rem",
+            justifyContent: "center",
+            alignItems: "center",
+            maxWidth: "78.25rem",
          }}
       >
          <Box>
-            <Image width={450} height={600} src={loginLogo} alt="logo image"></Image>
+            <Image width={650} height={864} src={loginLogo} alt="logo image"></Image>
          </Box>
          <Box
             sx={{
-               margin: "auto",
-               height: "80%",
+               width: "41rem",
+               height: "54rem",
                display: "flex",
+               margin: "4rem 0 0 5rem",
                flexDirection: "column",
-               justifyContent: "center",
-               alignItems: "center",
-               width: "35%",
             }}
          >
             <Box>
-               <Box sx={{ display: "flex", justifyContent: "start" }}>
+               <Box sx={{ display: "flex", justifyContent: "start", alignItems: "center" }}>
                   <Image src={leftArrow} alt="left subquare arrow"></Image>
-                  <Typography sx={{ color: "#0E1C2B", ml: "8px" }} fontWeight="bold" variant="h4">
+                  <Typography fontWeight={700} fontSize={40} sx={{ ml: "12px" }}>
                      Know you better
                   </Typography>
                </Box>
-               <Typography sx={{ color: "#1D1F61", mt: "1rem" }}>
+               <Typography sx={{ mt: "1rem" }}>
                   You can fill in these data, and we can customize your experiences.
                </Typography>
-               <TextField sx={{ mt: "1rem" }} fullWidth label="Your community name" type="text"></TextField>
+               <TextField sx={{ mt: "2.5rem" }} fullWidth label="Your community name" type="text"></TextField>
                <TextField sx={{ mt: "1rem" }} fullWidth label="Your role" type="text"></TextField>
                <Autocomplete
                   sx={{ mt: "1rem" }}
@@ -51,24 +47,27 @@ export default function KnowYouBetter() {
                   renderInput={(params) => <TextField {...params} label="Size of organization" />}
                ></Autocomplete>
                <TextField sx={{ mt: "1rem" }} fullWidth label="How did you find us?" type="text"></TextField>
-               <Button fullWidth type="submit" sx={{ mt: "2rem" }} variant="contained">
-                  Continue
+               <Button fullWidth type="submit" sx={{ mt: "2.5rem" }} variant="contained">
+                  <Typography sx={{ fontWeight: "600" }}>Continue</Typography>
                </Button>
                <Button fullWidth type="submit" sx={{ mt: "1rem" }} variant="outlined">
-                  Skip for now
+                  <Typography sx={{ fontWeight: "600" }}>Skip for now</Typography>
                </Button>
             </Box>
-            <Link
-               style={{
-                  color: "#1D1F61",
-                  textDecoration: "none",
-                  textAlign: "center",
-                  marginTop: "2rem",
-               }}
-               href="/login"
-            >
-               Already have an account? Login
-            </Link>
+            <Typography sx={{ color: "#1D1F61", textAlign: "center", mt: "11.5rem" }}>
+               Already have an account?
+               <Link
+                  style={{
+                     textDecoration: "none",
+                     color: "#1D1F61",
+                     fontWeight: "bold",
+                  }}
+                  href="/login"
+               >
+                  {"  "}
+                  Login
+               </Link>
+            </Typography>
          </Box>
       </Box>
    );

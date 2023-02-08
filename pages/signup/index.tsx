@@ -1,7 +1,6 @@
-import { Button, Container, IconButton, InputAdornment, TextField, Theme, Typography } from "@mui/material";
+import { Button, InputAdornment, TextField, Theme, Typography } from "@mui/material";
 
 import { makeStyles, createStyles } from "@mui/styles";
-// import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Box } from "@mui/system";
 import loginLogo from "../../images/login.svg";
 import Link from "next/link";
@@ -87,31 +86,28 @@ export default function SignUp() {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            width: "75%",
             height: "100vh",
             mx: "auto",
-            maxWidth: "75rem",
+            maxWidth: "78.25rem",
          }}
       >
          <Box>
-            <Image width={450} height={600} src={loginLogo} alt="logo image"></Image>
+            <Image width={650} height={864} src={loginLogo} alt="logo image"></Image>
          </Box>
          <Box
             sx={{
+               width: "41rem",
+               height: "54rem",
+               margin: "2.5rem 0 0 5rem",
                display: "flex",
                flexDirection: "column",
-               justifyContent: "center",
-               alignItems: "center",
-               mx: "auto",
-               height: "80%",
-               width: "40%",
             }}
          >
             <Box>
-               <Typography fontWeight="bold" variant="h4">
+               <Typography fontWeight={700} fontSize={40}>
                   Signup
                </Typography>
-               <Box sx={{ mt: "2rem" }}>
+               <Box sx={{ mt: "3.5rem" }}>
                   <TextField
                      required
                      fullWidth
@@ -127,9 +123,7 @@ export default function SignUp() {
                      required
                      fullWidth
                      label="Password"
-                     // error={false}
                      onChange={(event) => setPassword(event.target.value)}
-                     // helperText="Empty field!"
                      type={showPassword ? "text" : "password"}
                      InputProps={{
                         endAdornment: (
@@ -148,7 +142,7 @@ export default function SignUp() {
                      <TextField
                         required
                         fullWidth
-                        label="Repeat Password"
+                        label="Repeated Password"
                         error={repeatPasswordError !== ""}
                         onChange={repeatPasswordChangeHandler}
                         helperText={repeatPasswordError}
@@ -166,29 +160,11 @@ export default function SignUp() {
                         }}
                      ></TextField>
                   </Box>
-                  <Link
-                     style={{
-                        marginTop: "8px",
-                        color: "#1D1F61",
-                        textDecoration: "none",
-                        display: "block",
-                        textAlign: "right",
-                     }}
-                     href="/forget_password"
-                  >
-                     forget password
-                  </Link>
                </Box>
-               <Button
-                  fullWidth
-                  onClick={signUpHandler}
-                  type="submit"
-                  sx={{ mt: "2rem", bgcolor: "black" }}
-                  variant="contained"
-               >
-                  Login
+               <Button fullWidth onClick={signUpHandler} type="submit" sx={{ mt: "2.5rem" }} variant="contained">
+                  <Typography sx={{ fontWeight: "600" }}>Signup</Typography>
                </Button>
-               <Button sx={{ mt: "2rem", mb: "1rem" }} variant="outlined" fullWidth>
+               <Button sx={{ mt: "2.5rem", mb: "0.75rem" }} variant="outlined" fullWidth>
                   <Image className={classes.icons} src={googleIcon} alt="google icon"></Image>
                   Continue with <b>&nbsp;Google</b>
                </Button>
@@ -198,17 +174,20 @@ export default function SignUp() {
                   <b>&nbsp;Discord</b>
                </Button>
             </Box>
-            <Link
-               style={{
-                  color: "#1D1F61",
-                  textDecoration: "none",
-                  marginTop: "2rem",
-                  // textAlign: "center",
-               }}
-               href="/login"
-            >
-               Already have an account? Login
-            </Link>
+            <Typography sx={{ color: "#1D1F61", textDecoration: "none", mt: "11.5rem", textAlign: "center" }}>
+               Already have an account?
+               <Link
+                  style={{
+                     textDecoration: "none",
+                     color: "#1D1F61",
+                     fontWeight: "bold",
+                  }}
+                  href="/login"
+               >
+                  {" "}
+                  Login
+               </Link>
+            </Typography>
          </Box>
       </Box>
    );

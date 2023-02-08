@@ -1,18 +1,7 @@
-import {
-   Autocomplete,
-   Button,
-   Container,
-   Grid,
-   IconButton,
-   InputAdornment,
-   TextField,
-   Theme,
-   Typography,
-} from "@mui/material";
+import { Button, Grid, Typography } from "@mui/material";
 
 import { Box } from "@mui/system";
 import loginLogo from "../../images/login.svg";
-import Link from "next/link";
 import Image from "next/image";
 import leftArrow from "../../images/left-arrow.svg";
 import googleLogo from "../../images/google.svg";
@@ -22,65 +11,64 @@ import webHookLogo from "../../images/webhook.svg";
 import snapshotLogo from "../../images/snapshot.svg";
 import othersLogo from "../../images/others.svg";
 import CommunityBox from "components/communityBox";
+
 export default function CommunityTools() {
    return (
       <Box
          sx={{
             display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            width: "75%",
             height: "100vh",
             mx: "auto",
-            maxWidth: "75rem",
+            justifyContent: "center",
+            alignItems: "center",
+            maxWidth: "78.25rem",
          }}
       >
          <Box>
-            <Image width={450} height={600} src={loginLogo} alt="logo image"></Image>
+            <Image width={650} height={864} src={loginLogo} alt="logo image"></Image>
          </Box>
          <Box
             sx={{
+               width: "41rem",
+               height: "54rem",
                display: "flex",
-               alignItems: "center",
-               mx: "auto",
-               mb: "2rem",
-               height: "80%",
-               width: "35%",
+               margin: "4rem 0 0 5rem",
+               flexDirection: "column",
             }}
          >
             <Box>
-               <Box sx={{ display: "flex", justifyContent: "start" }}>
+               <Box sx={{ display: "flex", justifyContent: "start", alignItems: "center" }}>
                   <Image src={leftArrow} alt="left subquare arrow"></Image>
-                  <Typography sx={{ color: "#0E1C2B", ml: "8px" }} fontWeight="bold" variant="h4">
+                  <Typography fontWeight={700} fontSize={40} sx={{ ml: "8px" }}>
                      Community tools
                   </Typography>
                </Box>
-               <Typography sx={{ color: "#1D1F61", mt: "1rem" }}>You can select your preferred communities.</Typography>
-               <Grid container columnSpacing={5} rowSpacing={2} mt="1rem">
+               <Typography sx={{ mt: "1.25rem" }}>You can select your preferred communities.</Typography>
+               <Grid container spacing={2} mt="2.5rem">
                   <Grid item xs={4}>
-                     <CommunityBox logoSrc={discordLogo} boxTitle="Discord" />
+                     <CommunityBox logoSrc={discordLogo} boxTitle="Discord" logoSize="74px" />
                   </Grid>
                   <Grid item xs={4}>
-                     <CommunityBox logoSrc={snapshotLogo} boxTitle="Snapshot" />
+                     <CommunityBox logoSrc={snapshotLogo} boxTitle="Snapshot" logoSize="74px" />
                   </Grid>
                   <Grid item xs={4}>
-                     <CommunityBox logoSrc={webHookLogo} boxTitle="Webhook" />
+                     <CommunityBox logoSrc={webHookLogo} boxTitle="Webhook" logoSize="60px" />
                   </Grid>
                   <Grid item xs={4}>
-                     <CommunityBox logoSrc={googleLogo} boxTitle="Google workspace" />
+                     <CommunityBox logoSrc={googleLogo} boxTitle="Google workspace" logoSize="54px" />
                   </Grid>
                   <Grid item xs={4}>
-                     <CommunityBox logoSrc={aragonLogo} boxTitle="Aragon" />
+                     <CommunityBox logoSrc={aragonLogo} boxTitle="Aragon" logoSize="50px" />
                   </Grid>
                   <Grid item xs={4}>
-                     <CommunityBox logoSrc={othersLogo} boxTitle="Others" />
+                     <CommunityBox logoSrc={othersLogo} boxTitle="Others" logoSize="50px" />
                   </Grid>
                </Grid>
-               <Button fullWidth type="submit" sx={{ mt: "3rem", width: "100%" }} variant="contained">
-                  Continue
+               <Button fullWidth type="submit" sx={{ mt: "4.5rem", width: "100%" }} variant="contained">
+                  <Typography sx={{ fontWeight: "600" }}>Continue</Typography>
                </Button>
                <Button fullWidth type="submit" sx={{ mt: "1rem" }} variant="outlined">
-                  Skip for now
+                  <Typography sx={{ fontWeight: "600" }}>Skip for now</Typography>
                </Button>
             </Box>
          </Box>
