@@ -1,10 +1,10 @@
-import { Button, TextField, Typography } from "@mui/material";
+import { Avatar, Button, TextField, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import { Box } from "@mui/system";
 import loginLogo from "../../images/login.svg";
 import Image from "next/image";
-import LeftArrow from "../../images/left-arrow.svg";
 import { FocusEvent, MouseEvent, useState } from "react";
+import BackIcon from "components/backIcon";
 
 export default function ForgetPassword() {
    const router = useRouter();
@@ -65,7 +65,7 @@ export default function ForgetPassword() {
          >
             <Box>
                <Box sx={{ display: "flex", justifyContent: "start", alignItems: "center" }}>
-                  <Image src={LeftArrow} alt="left subquare arrow"></Image>
+                  <BackIcon />
                   <Typography fontWeight={700} fontSize={40} variant="h4" sx={{ ml: "8px" }}>
                      Forget your password
                   </Typography>

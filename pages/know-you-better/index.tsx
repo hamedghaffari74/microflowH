@@ -3,7 +3,7 @@ import { Box } from "@mui/system";
 import loginLogo from "../../images/login.svg";
 import Link from "next/link";
 import Image from "next/image";
-import leftArrow from "../../images/left-arrow.svg";
+import BackIcon from "components/backIcon";
 
 export default function KnowYouBetter() {
    return (
@@ -31,7 +31,7 @@ export default function KnowYouBetter() {
          >
             <Box>
                <Box sx={{ display: "flex", justifyContent: "start", alignItems: "center" }}>
-                  <Image src={leftArrow} alt="left subquare arrow"></Image>
+                  <BackIcon />
                   <Typography fontWeight={700} fontSize={40} sx={{ ml: "12px" }}>
                      Know you better
                   </Typography>

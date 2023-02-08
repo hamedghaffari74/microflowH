@@ -4,6 +4,7 @@ import { Box } from "@mui/system";
 import loginLogo from "../../images/login.svg";
 import Image from "next/image";
 import leftArrow from "../../images/left-arrow.svg";
+import BackIcon from "components/backIcon";
 
 export default function EmailVerification() {
    const router = useRouter();
@@ -36,7 +37,7 @@ export default function EmailVerification() {
          >
             <Box>
                <Box sx={{ display: "flex", justifyContent: "start", alignItems: "center" }}>
-                  <Image src={leftArrow} alt="left subquare arrow"></Image>
+                  <BackIcon />
                   <Typography fontWeight={700} fontSize={40} variant="h4" sx={{ ml: "12px" }}>
                      Check your email
                   </Typography>

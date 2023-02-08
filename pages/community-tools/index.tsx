@@ -3,7 +3,6 @@ import { Button, Grid, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import loginLogo from "../../images/login.svg";
 import Image from "next/image";
-import leftArrow from "../../images/left-arrow.svg";
 import googleLogo from "../../images/google.svg";
 import discordLogo from "../../images/discord.svg";
 import aragonLogo from "../../images/aragon.svg";
@@ -11,6 +10,7 @@ import webHookLogo from "../../images/webhook.svg";
 import snapshotLogo from "../../images/snapshot.svg";
 import othersLogo from "../../images/others.svg";
 import CommunityBox from "components/communityBox";
+import BackIcon from "components/backIcon";
 
 export default function CommunityTools() {
    return (
@@ -38,7 +38,7 @@ export default function CommunityTools() {
          >
             <Box>
                <Box sx={{ display: "flex", justifyContent: "start", alignItems: "center" }}>
-                  <Image src={leftArrow} alt="left subquare arrow"></Image>
+                  <BackIcon />
                   <Typography fontWeight={700} fontSize={40} sx={{ ml: "8px" }}>
                      Community tools
                   </Typography>
