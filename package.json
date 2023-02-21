@@ -1,36 +1,38 @@
 {
-  "name": "@microflow/app",
-  "version": "0.0.1",
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "@emotion/cache": "latest",
-    "@emotion/react": "latest",
-    "@emotion/server": "latest",
-    "@emotion/styled": "latest",
-    "@mui/icons-material": "latest",
-    "@mui/material": "latest",
-    "@next/font": "latest",
-    "@reduxjs/toolkit": "^1.9.1",
-    "next": "latest",
-    "next-redux-wrapper": "^8.0.0",
-    "react": "latest",
-    "react-custom-scrollbars": "^4.2.1",
-    "react-dom": "latest",
-    "react-redux": "^8.0.5",
-    "reactflow": "^11.3.3"
-  },
-  "devDependencies": {
-    "@types/node": "latest",
-    "@types/react": "latest",
-    "@types/react-custom-scrollbars": "^4.0.10",
-    "eslint": "8.28.0",
-    "eslint-config-next": "13.0.5",
-    "eslint-config-prettier": "^8.5.0",
-    "typescript": "latest"
-  }
+   "name": "@microflow/app",
+   "version": "0.0.1",
+   "scripts": {
+      "dev": "next dev",
+      "build": "next build",
+      "start": "next start",
+      "lint": "next lint"
+   },
+   "dependencies": {
+      "@emotion/cache": "latest",
+      "@emotion/react": "latest",
+      "@emotion/server": "latest",
+      "@emotion/styled": "latest",
+      "@mui/icons-material": "latest",
+      "@mui/material": "latest",
+      "@mui/styles": "^5.11.7",
+      "@next/font": "latest",
+      "@reduxjs/toolkit": "^1.9.1",
+      "iconsax-react": "^0.0.8",
+      "next": "latest",
+      "next-redux-wrapper": "^8.0.0",
+      "react": "latest",
+      "react-custom-scrollbars": "^4.2.1",
+      "react-dom": "latest",
+      "react-redux": "^8.0.5",
+      "reactflow": "^11.3.3"
+   },
+   "devDependencies": {
+      "@types/node": "latest",
+      "@types/react": "latest",
+      "@types/react-custom-scrollbars": "^4.0.10",
+      "eslint": "8.28.0",
+      "eslint-config-next": "13.0.5",
+      "eslint-config-prettier": "^8.5.0",
+      "typescript": "latest"
+   }
 }
