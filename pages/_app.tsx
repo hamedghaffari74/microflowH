@@ -14,6 +14,9 @@ const clientSideEmotionCache = createEmotionCache();
 
 interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
+  Component: AppProps["Component"] & {
+    pageLayout?: React.ComponentType | any;
+  };
 }
 
 function MyApp({ Component, ...rest }: MyAppProps) {
@@ -28,7 +31,13 @@ function MyApp({ Component, ...rest }: MyAppProps) {
         <ThemeProvider theme={lightTheme}>
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />
-          <Component {...pageProps} />
+          {Component.pageLayout ? (
+            <Component.pageLayout>
+              <Component {...pageProps} />
+            </Component.pageLayout>
+          ) : (
+            <Component {...pageProps} />
+          )}
         </ThemeProvider>
       </CacheProvider>
     </Provider>

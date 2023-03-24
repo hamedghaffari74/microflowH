@@ -111,6 +111,13 @@ const lightTheme = createTheme({
   },
   components: {
     // Name of the component
+    MuiAppBar: {
+      styleOverrides: {
+        colorPrimary: {
+          backgroundColor: palette.primary[900],
+        },
+      }
+    },
     MuiButton: {
       defaultProps: {
         disableElevation: true, // remove default box shadow on buttons
