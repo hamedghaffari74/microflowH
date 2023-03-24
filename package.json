@@ -14,6 +14,7 @@
     "@emotion/styled": "latest",
     "@mui/icons-material": "latest",
     "@mui/material": "latest",
+    "@mui/styles": "^5.11.7",
     "@next/font": "latest",
     "@reduxjs/toolkit": "^1.9.1",
     "iconsax-react": "^0.0.8",
