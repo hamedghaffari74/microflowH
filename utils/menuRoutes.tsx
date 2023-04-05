@@ -26,12 +26,12 @@ const Routes: routes[] = [
             {
                 title: "All automations",
                 icon: <WatchStatus />,
-                path: "/",
+                path: "/dashbord/allAutomations",
             },
             {
                 title: "Starred automations",
                 icon: <Star1 />,
-                path: "/",
+                path: "/dashbord/starredAutomations",
             },
             {
                 title: "Community",

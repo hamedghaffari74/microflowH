@@ -1,0 +1,114 @@
+/* @tailwind base; */
+@tailwind components;
+@tailwind utilities;
+
+
+.css-1wjutyr .MuiChip-label {
+    padding-left: 4.8px;
+    padding-right: 4.8px;
+}
+
+.label-text {
+
+    width: 42px;
+    height: 20px;
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    /* identical to box height, or 143% */
+
+    display: flex;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.1px;
+}
+
+*,
+::before,
+::after {
+    box-sizing: inherit;
+}
+
+.Button-lable {
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 4px 8px;
+    gap: 10px;
+    width: 58px;
+    height: 28px;
+    border-radius: 80px;
+    /* Information/500 */
+}
+
+.label-text-date {
+    width: 253px;
+    height: 22px;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 22px;
+    /* identical to box height, or 169% */
+    display: flex;
+    align-items: flex-end;
+    letter-spacing: 0.1px;
+    /* Text Colors/Tertiary */
+    color: #6F788B;
+}
+
+.text-title {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 22px;
+    /* identical to box height, or 92% */
+
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.1px;
+    /* Text Colors/Primary Text */
+    color: #0E1C2B;
+}
+
+.team-label {
+    box-sizing: border-box;
+    width: 56px;
+    height: 56px;
+    /* Primary(Blue-Magenta)/100 */
+    background: #C5C3EC;
+    border: 1px solid #000000;
+    border-radius: 8px;
+
+}
+
+.box-team {
+    box-sizing: border-box;
+    width: 56px;
+    height: 56px;
+    /* Primary(Blue-Magenta)/100 */
+    background: #C5C3EC;
+    border: 1px solid #000000;
+    border-radius: 8px;
+
+}
+
+.exampleAutomationMenuItem  {
+
+    /* font-family: 'Inter'; */
+    font-style: normal;
+    font-weight: 500;
+    font-size: 1rem;
+    line-height: 20px;
+    color: #0E1C2B;
+    border-bottom: 1px solid #B5BFCD ;
+    padding: 20px
+
+
+}
